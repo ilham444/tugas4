@@ -15,7 +15,8 @@ class KomentarController extends Controller
         $validated = $request->validate([
             'materi_id' => 'required|exists:materis,id',
             'body' => 'required|string|max:1000',
-        ]);
+        ]); 
+        
 
         Komentar::create([
             'user_id'    => auth()->id(),
