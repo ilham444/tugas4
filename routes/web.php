@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\KomentarController;
@@ -35,7 +36,7 @@ Route::get('/dashboard', function () {
 // ==============================
 // Grup Rute ADMIN
 // ==============================
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware([RoleMiddleware::class . ':admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::resource('materi', AdminMateriController::class);
     Route::resource('kategori', KategoriController::class)->except('show');
@@ -44,7 +45,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 // ==============================
 // Grup Rute USER
 // ==============================
-Route::middleware(['auth', 'role:user'])->prefix('user')->name('user.')->group(function () {
+Route::middleware(['auth', RoleMiddleware::class . ':user'])->prefix('user')->name('user.')->group(function () {
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
     Route::get('/materi/{materi:slug}', [UserMateriController::class, 'show'])->name('materi.show');
 });
