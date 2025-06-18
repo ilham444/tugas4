@@ -9,14 +9,14 @@ class Kernel extends HttpKernel
     /**
      * Global HTTP middleware yang akan dijalankan untuk setiap request.
      */
-   protected $middleware = [
-    \App\Http\Middleware\TrustProxies::class,
-    \Illuminate\Http\Middleware\HandleCors::class,
-    \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
-    \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
-    \App\Http\Middleware\TrimStrings::class,
-    \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-];
+    protected $middleware = [
+        \App\Http\Middleware\TrustProxies::class,
+        \Illuminate\Http\Middleware\HandleCors::class,
+        \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
+        \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
+        \App\Http\Middleware\TrimStrings::class,
+        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+    ];
 
 
     /**
@@ -54,6 +54,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
         // ✅ Middleware Role
-        'role' => \App\Http\Middleware\RoleMiddleware::class,
+        // 'role' => \App\Http\Middleware\RoleMiddleware::class,
     ];
 }
