@@ -19,7 +19,7 @@ class KomentarController extends Controller
         
 
         Komentar::create([
-            'user_id'    => auth()->id(),
+            'user_id'    => auth(),
             'materi_id'  => $validated['materi_id'],
             'body'       => $validated['body'],
         ]);
