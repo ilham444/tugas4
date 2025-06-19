@@ -32,6 +32,11 @@ class Materi extends Model
         return $this->belongsTo(Kategori::class);
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
     /**
      * Optional: Relasi Materi -> User (jika materi dibuat oleh user tertentu)
      */
