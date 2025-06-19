@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\RoleMiddleware;
+
+// Auth & Profile Controllers
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\KomentarController;
 
@@ -39,7 +41,7 @@ Route::get('/dashboard', function () {
 Route::middleware([RoleMiddleware::class . ':admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::resource('materi', AdminMateriController::class);
-    Route::resource('kategori', KategoriController::class)->except('show');
+    Route::resource('kategori', KategoriController::class);
 });
 
 // ==============================
@@ -47,21 +49,23 @@ Route::middleware([RoleMiddleware::class . ':admin'])->prefix('admin')->name('ad
 // ==============================
 Route::middleware(['auth', RoleMiddleware::class . ':user'])->prefix('user')->name('user.')->group(function () {
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
-    Route::get('/materi/{materi:slug}', [UserMateriController::class, 'show'])->name('materi.show');
+    Route::resource('materi', UserMateriController::class)->only(['show']);
 });
 
 // ==============================
-// Rute Profil (Breeze) + Komentar
+// Rute Profil (Laravel Breeze) + Komentar
 // ==============================
 Route::middleware('auth')->group(function () {
+    // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // Komentar
     Route::post('/komentar', [KomentarController::class, 'store'])->name('komentar.store');
 });
 
 // ==============================
-// Auth Routes (Login, Register, etc.)
+// Auth Routes (Login, Register, dsb.)
 // ==============================
 require __DIR__.'/auth.php';
