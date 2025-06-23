@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\RoleMiddleware;
+
+// Auth & Profile Controllers
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\KomentarController;
 
@@ -15,14 +17,14 @@ use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\User\MateriController as UserMateriController;
 
 // ==============================
-// Halaman Awal
+// Halaman Awal (Landing Page)
 // ==============================
 Route::get('/', function () {
     return view('welcome');
 });
 
 // ==============================
-// Redirect Dashboard sesuai Role
+// Redirect ke Dashboard berdasarkan Role
 // ==============================
 Route::get('/dashboard', function () {
     if (auth()->user()->role === 'admin') {
@@ -34,34 +36,44 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // ==============================
-// Grup Rute ADMIN
+// Grup Rute ADMIN (dengan Prefix & Middleware)
 // ==============================
-Route::middleware([RoleMiddleware::class . ':admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', RoleMiddleware::class . ':admin'])->prefix('admin')->name('admin.')->group(function () {
+    // Dashboard Admin
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+    // CRUD Materi
     Route::resource('materi', AdminMateriController::class);
-    Route::resource('kategori', KategoriController::class)->except('show');
+
+    // CRUD Kategori
+    Route::resource('kategori', KategoriController::class);
 });
 
 // ==============================
-// Grup Rute USER
+// Grup Rute USER (dengan Prefix & Middleware)
 // ==============================
 Route::middleware(['auth', RoleMiddleware::class . ':user'])->prefix('user')->name('user.')->group(function () {
+    // Dashboard User
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
-    Route::get('/materi/{materi:slug}', [UserMateriController::class, 'show'])->name('materi.show');
+
+    // Materi hanya bisa diakses `show` oleh user
+    Route::resource('materi', UserMateriController::class)->only(['show']);
 });
 
 // ==============================
-// Rute Profil (Breeze) + Komentar
+// Rute untuk Profile (Laravel Breeze) & Komentar
 // ==============================
 Route::middleware('auth')->group(function () {
+    // Profil
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // Komentar
     Route::post('/komentar', [KomentarController::class, 'store'])->name('komentar.store');
 });
 
 // ==============================
-// Auth Routes (Login, Register, etc.)
+// Auth Routes (Laravel Breeze default auth)
 // ==============================
 require __DIR__.'/auth.php';
