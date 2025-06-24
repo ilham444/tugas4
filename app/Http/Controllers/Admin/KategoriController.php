@@ -11,11 +11,11 @@ class KategoriController extends Controller
 {
     public function index() {
         $kategori = Kategori::latest()->paginate(10);
-        return view('admin.kategori.index', compact('kategori'));
+        return view('admin.materi.kategori.index', compact('kategori'));
     }
 
     public function create() {
-        return view('admin.kategori.create');
+        return view('admin.materi.kategori.create');
     }
 
     public function store(Request $request) {
@@ -28,7 +28,7 @@ class KategoriController extends Controller
     }
 
     public function edit(Kategori $kategori) {
-        return view('admin.kategori.edit', compact('kategori'));
+        return view('admin.materi.kategori.edit', compact('kategori'));
     }
 
     public function update(Request $request, Kategori $kategori) {
