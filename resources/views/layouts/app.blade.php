@@ -29,10 +29,10 @@
         }
     </style>
 </head>
-<body class="font-sans antialiased">
+<body class="font-sans antialiased text-gray-800 dark:text-gray-200">
 
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-        
+
         {{-- Memasukkan file navigasi --}}
         @include('layouts.navigation')
 
