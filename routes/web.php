@@ -74,6 +74,6 @@ Route::middleware('auth')->group(function () {
 });
 
 // ==============================
-// Auth Routes (Laravel Breeze default auth)
+// Auth Routes (dari Laravel Breeze)
 // ==============================
 require __DIR__.'/auth.php';
