@@ -34,7 +34,7 @@
                 <!-- Kolom Konten Utama (Kiri, 2/3) -->
                 <!-- ============================================= -->
                 <div class="lg:col-span-2 space-y-8">
-                    
+
                     <!-- Player Konten (Video/PDF) -->
                     <div class="bg-white dark:bg-gray-900 shadow-xl rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
                         @php $fileExtension = pathinfo($materi->file_path, PATHINFO_EXTENSION); @endphp
@@ -64,7 +64,7 @@
                             </div>
                         @endif
                     </div>
-                    
+
                     <!-- Area Deskripsi & Diskusi (dengan Tabs) -->
                     <div x-data="{ tab: 'deskripsi' }" class="bg-white dark:bg-gray-800 shadow-xl rounded-2xl border border-gray-200 dark:border-gray-700">
                         <div class="border-b border-gray-200 dark:border-gray-700">
@@ -78,7 +78,7 @@
                             <div x-show="tab === 'deskripsi'" class="prose prose-indigo dark:prose-invert max-w-none">
                                 {!! nl2br(e($materi->description)) !!}
                             </div>
-                            
+
                             {{-- Konten Diskusi --}}
                             <div x-show="tab === 'diskusi'" class="space-y-8">
                                 <!-- Form Tambah Komentar -->
@@ -163,7 +163,7 @@
                             </ul>
                         </div>
                     </div>
-                    
+
                     {{-- Panel Materi Selanjutnya --}}
                     @isset($nextMateri)
                         <div class="bg-white dark:bg-gray-800 shadow-xl rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
@@ -171,7 +171,7 @@
                              <div class="p-6">
                                 <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Selanjutnya</h3>
                                 <p class="mt-1 font-bold text-lg text-gray-800 dark:text-gray-100">{{ $nextMateri->title }}</p>
-                                <a href="{{ route('user.materi.show', $nextMateri->id) }}" class="mt-4 flex items-center justify-center gap-2 w-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 text-sm font-semibold py-2.5 px-4 rounded-lg transition-colors">
+                                <a href="{{ route('user.materi.show', $nextMateri->slug) }}" class="mt-4 flex items-center justify-center gap-2 w-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 text-sm font-semibold py-2.5 px-4 rounded-lg transition-colors">
                                     Lanjutkan Belajar <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                                 </a>
                              </div>
