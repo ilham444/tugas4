@@ -7,18 +7,17 @@
                 </h2>
                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Lakukan perubahan pada detail materi di bawah ini.</p>
             </div>
-            {{-- Tombol Hapus dengan Konfirmasi Modal --}}
             <div x-data="{ open: false }">
                 <button @click="open = true" type="button" class="inline-flex items-center gap-2 bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-500/20 font-semibold py-2 px-4 rounded-lg transition-colors">
-                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.58.22-2.365.468a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.52.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193v-.443A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z" clip-rule="evenodd" /></svg>
+                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.58.22-2.365.468a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.52.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193v-.443A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z" clip-rule="evenodd" />
+                    </svg>
                     Hapus Materi
                 </button>
-
-                {{-- Modal Konfirmasi --}}
-                <div x-show="open" x-cloak x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50">
+                <div x-show="open" x-cloak x-transition class="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50">
                     <div @click.away="open = false" class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md w-full">
                         <h3 class="text-xl font-bold text-gray-900 dark:text-white">Konfirmasi Penghapusan</h3>
-                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Apakah Anda yakin ingin menghapus materi <span class="font-semibold">"{{ $materi->title }}"</span> secara permanen? Tindakan ini tidak dapat diurungkan.</p>
+                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Apakah Anda yakin ingin menghapus materi <span class="font-semibold">"{{ $materi->title }}"</span> secara permanen?</p>
                         <div class="mt-6 flex justify-end gap-4">
                             <button @click="open = false" type="button" class="px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 rounded-lg">Batal</button>
                             <form action="{{ route('admin.materi.destroy', $materi) }}" method="POST">
@@ -39,51 +38,36 @@
                 @csrf
                 @method('PUT')
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    
-                    <!-- Kolom Utama (Input Konten) -->
                     <div class="lg:col-span-2 space-y-6">
                         <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
-                            <!-- Judul Materi -->
-                            <div>
-                                <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Judul Materi</label>
-                                <input type="text" name="title" id="title" class="mt-1 block w-full text-lg font-semibold p-3 rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" value="{{ old('title', $materi->title) }}" required>
-                                @error('title') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
-                            </div>
+                            <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Judul Materi</label>
+                            <input type="text" name="title" id="title" value="{{ old('title', $materi->title) }}" required class="mt-1 block w-full text-lg font-semibold p-3 rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500">
+                            @error('title') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
                         </div>
 
                         <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
-                            <!-- Deskripsi -->
-                            <div>
-                                <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Deskripsi Lengkap</label>
-                                <textarea name="description" id="description" rows="10" class="mt-1 block w-full rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>{{ old('description', $materi->description) }}</textarea>
-                                @error('description') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
-                            </div>
+                            <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Deskripsi Lengkap</label>
+                            <textarea name="description" id="description" rows="10" required class="mt-1 block w-full rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500">{{ old('description', $materi->description) }}</textarea>
+                            @error('description') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
                         </div>
                     </div>
 
-                    <!-- Sidebar (Metadata & File Upload) -->
                     <div class="lg:col-span-1 space-y-6">
                         <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Pengaturan</h3>
-                            
-                            <!-- Kategori -->
-                            <div>
-                                <label for="kategori_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Kategori</label>
-                                <select name="kategori_id" id="kategori_id" class="mt-1 block w-full p-3 rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
-                                    @foreach ($kategoris as $kategori)
-                                        <option value="{{ $kategori->id }}" {{ old('kategori_id', $materi->kategori_id) == $kategori->id ? 'selected' : '' }}>
-                                            {{ $kategori->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('kategori_id') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
-                            </div>
+                            <label for="kategori_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Kategori</label>
+                            <select name="kategori_id" id="kategori_id" required class="mt-1 block w-full p-3 rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500">
+                                @foreach ($kategoris as $kategori)
+                                    <option value="{{ $kategori->id }}" {{ old('kategori_id', $materi->kategori_id) == $kategori->id ? 'selected' : '' }}>
+                                        {{ $kategori->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('kategori_id') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
                         </div>
-                        
+
                         <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700" x-data="{ showUploader: false }">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">File Materi</h3>
-
-                            {{-- Tampilan File Saat Ini --}}
                             <div x-show="!showUploader" class="space-y-4">
                                 <div class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
                                     <div class="flex-shrink-0 bg-indigo-100 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 p-2 rounded-lg">
@@ -96,8 +80,6 @@
                                 </div>
                                 <button @click="showUploader = true" type="button" class="w-full text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">Ganti File</button>
                             </div>
-
-                            {{-- Area Drag & Drop (Muncul saat 'Ganti File' diklik) --}}
                             <div x-show="showUploader" x-cloak>
                                 <div x-data="fileDrop()" class="relative flex flex-col items-center justify-center w-full p-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg text-center cursor-pointer hover:border-indigo-500 dark:hover:border-indigo-400 transition-colors">
                                     <input type="file" name="file" id="file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" @change="handleFileSelect($event)">
@@ -111,8 +93,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Footer Aksi "Sticky" -->
                 <div class="fixed bottom-0 left-0 w-full bg-white dark:bg-gray-800/80 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 z-30">
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-3">
                         <div class="flex items-center justify-end gap-4">
@@ -127,12 +107,4 @@
             </form>
         </div>
     </div>
-    
-    {{-- Script Alpine.js (sama seperti halaman tambah) --}}
-    <script>
-        // Letakkan di file JS terpisah atau di layout utama
-        if (typeof fileDrop === 'undefined') {
-            function fileDrop() { /* ... kode dari halaman Tambah ... */ }
-        }
-    </script>
 </x-app-layout>

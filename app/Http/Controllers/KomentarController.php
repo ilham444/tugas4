@@ -15,16 +15,14 @@ class KomentarController extends Controller
         $validated = $request->validate([
             'materi_id' => 'required|exists:materis,id',
             'body' => 'required|string|max:1000',
-        ]); 
-        
+        ]);
 
         Komentar::create([
-            'user_id'    => auth(),
-            'materi_id'  => $validated['materi_id'],
-            'body'       => $validated['body'],
+            'user_id'   => auth()->id(), // ✅ fix
+            'materi_id' => $validated['materi_id'],
+            'body'      => $validated['body'],
         ]);
 
         return back()->with('success', 'Komentar berhasil ditambahkan.');
     }
 }
- 

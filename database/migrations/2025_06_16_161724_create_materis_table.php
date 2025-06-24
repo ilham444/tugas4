@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('materis', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('slug')->unique(); // Tambahan
             $table->text('description');
             $table->string('slug')->unique();
             $table->string('file_path'); // Untuk menyimpan path file (PDF, video, dll)

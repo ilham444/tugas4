@@ -11,6 +11,7 @@ class Materi extends Model
 
     protected $fillable = [
         'title',
+        'slug', // ✅ Tambahkan ini
         'description',
         'file_path',
         'kategori_id',
@@ -33,6 +34,9 @@ class Materi extends Model
         return $this->belongsTo(Kategori::class);
     }
 
+    /**
+     * Gunakan slug untuk route binding
+     */
     public function getRouteKeyName(): string
     {
         return 'slug';
