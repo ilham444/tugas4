@@ -36,18 +36,18 @@
                         <p class="mt-1 text-gray-500 dark:text-gray-400">Selamat datang kembali, {{ Auth::user()->name }}. Siap untuk belajar hal baru?</p>
                     </div>
                     {{-- KARTU AKSI UTAMA: Lanjutkan Belajar --}}
-                 
+
                 </div>
             </div>
         </div>
-        
+
         <main class="py-10">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
                     <!-- Kolom Konten Utama (2/3) -->
                     <div class="lg:col-span-2 space-y-8">
-                        
+
                         <!-- Filter Kategori Interaktif -->
                         <div x-data="{ activeFilter: 'all' }" class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
                             <div class="flex items-center gap-2 overflow-x-auto pb-2">
@@ -81,7 +81,7 @@
                                         </div>
                                         @endfor
                                     @endif --}}
-                                    
+
                                     {{-- KARTU MATERI SEBENARNYA --}}
                                     @foreach($kategoris->pluck('materis')->flatten() as $item)
                                         <div class="group flex flex-col bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 transform hover:-translate-y-1">
@@ -111,8 +111,6 @@
 
                     <!-- Kolom Sidebar (1/3) -->
                     <aside class="space-y-8">
-                        
-                        Pencapaian Saya
                         <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
                             <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Pencapaian Saya</h3>
                             <div class="grid grid-cols-3 gap-4 text-center">
