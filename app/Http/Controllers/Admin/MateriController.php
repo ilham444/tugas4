@@ -18,11 +18,11 @@ class MateriController extends Controller
     }
 
     // Dalam method create()
-public function create()
-{
-    $kategoris = Kategori::all(); // <-- Ambil semua kategori
-    return view('admin.materi.create', compact('kategoris')); // <-- Kirim ke view
-}
+    public function create()
+    {
+        $kategoris = Kategori::all(); // <-- Ambil semua kategori
+        return view('admin.materi.create', compact('kategoris')); // <-- Kirim ke view
+    }
 
 
     public function store(Request $request)
@@ -41,16 +41,17 @@ public function create()
             'description' => $request->description,
             'file_path' => $filePath,
             'kategori_id' => $request->kategori_id,
-        ]); 
+            'slug' => \Str::slug($request->title . '-' . now()->format('YmdHis'))
+        ]);
 
         return redirect()->route('admin.materi.index')->with('success', 'Materi berhasil ditambahkan.');
     }
 
     public function edit(Materi $materi)
-{
-    $kategoris = Kategori::all(); // <-- Ambil semua kategori
-    return view('admin.materi.edit', compact('materi', 'kategoris')); // <-- Kirim ke view
-}
+    {
+        $kategoris = Kategori::all(); // <-- Ambil semua kategori
+        return view('admin.materi.edit', compact('materi', 'kategoris')); // <-- Kirim ke view
+    }
 
     public function update(Request $request, Materi $materi)
     {
@@ -81,7 +82,7 @@ public function create()
     {
         // Hapus file dari storage
         Storage::disk('public')->delete($materi->file_path);
-        
+
         // Hapus record dari database
         $materi->delete();
 

@@ -25,7 +25,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-2xl border border-gray-200 dark:border-gray-700/50">
                 <div class="p-6 md:p-8">
-                    
+
                     <!-- Panel Kontrol Tabel (Filter & Pencarian) -->
                     <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
                         <div class="w-full md:w-1/2 lg:w-1/3">
@@ -80,7 +80,7 @@
                                                 </button>
                                                 {{-- Dropdown Menu Aksi --}}
                                                 <div x-show="open" @click.away="open = false" x-transition class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 z-10">
-                                                    <a href="{{ route('admin.materi.edit', $item) }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Edit</a>
+                                                    <a href="{{ route('admin.materi.edit', $item) }}"  class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Edit</a>
                                                     <button @click="deleting = true; open = false" class="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-800">Hapus</button>
                                                 </div>
 
@@ -91,7 +91,7 @@
                                                         <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Anda yakin ingin menghapus materi <span class="font-semibold">"{{ $item->title }}"</span>? Tindakan ini tidak dapat diurungkan.</p>
                                                         <div class="mt-6 flex justify-end gap-4">
                                                             <button @click="deleting = false" type="button" class="px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 rounded-lg">Batal</button>
-                                                            <form action="{{ route('admin.materi.destroy', $item) }}" method="POST">
+                                                            <form method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
                                                                 <button type="submit" class="px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-lg">Ya, Hapus</button>

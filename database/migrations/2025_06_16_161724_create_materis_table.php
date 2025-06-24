@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
+            $table->string('slug')->unique();
             $table->string('file_path'); // Untuk menyimpan path file (PDF, video, dll)
             $table->timestamps();
         });
