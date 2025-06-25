@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
 
@@ -16,6 +17,7 @@ use App\Http\Controllers\Admin\ModulController as AdminModulController;
 // User Controllers
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\User\MateriController as UserMateriController;
+use App\Http\Controllers\User\ModulController as UserModulController;
 
 // ==============================
 // Halaman Awal (Landing Page)
@@ -62,7 +64,10 @@ Route::middleware(['auth', RoleMiddleware::class . ':user'])->prefix('user')->na
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
 
     // Materi hanya bisa diakses `show` oleh user
-    Route::resource('materi', UserMateriController::class)->only(['show']);
+    Route::resource('modul.materi', UserMateriController::class)->only(['show']);
+
+    // Modul hanya bisa diakses `show` oleh user
+    Route::resource('modul', UserModulController::class)->only(['show']);
 });
 
 // ==============================

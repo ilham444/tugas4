@@ -60,7 +60,6 @@
                         @elseif(in_array(strtolower($fileExtension), ['png', 'jpg', 'jpeg']))
                             <div class="aspect-w-16 aspect-h-9 bg-black">
                                 <img src="{{ Storage::url($modul->thumbnail) }}" alt="{{ $modul->title }}" />
-
                             </div>
                         @else
                             {{-- Tampilan untuk file yang tidak bisa di-preview --}}
@@ -100,6 +99,11 @@
                                 <button @click="tab = 'deskripsi'"
                                     :class="tab === 'deskripsi' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
                                     class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors">Deskripsi</button>
+                                <button @click="tab = 'materi'"
+                                    :class="tab === 'materi' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors">
+                                    Materi
+                                </button>
 
                             </nav>
                         </div>
@@ -107,6 +111,36 @@
                             {{-- Konten Deskripsi --}}
                             <div x-show="tab === 'deskripsi'" class="prose prose-indigo dark:prose-invert max-w-none">
                                 {!! nl2br(e($modul->description)) !!}
+                            </div>
+                            {{-- Konten Materi --}}
+                            <div x-show="tab === 'materi'">
+                                @if($modul->materis->count())
+                                    <ul class="space-y-4">
+                                        @foreach($modul->materis as $materi)
+                                            <li
+                                                class="flex items-center justify-between bg-gray-50 dark:bg-gray-900 rounded-lg px-4 py-3">
+                                                <div>
+                                                    <a href="{{ route('user.modul.materi.show', [$modul, $materi->slug]) }}"
+                                                        class="font-semibold text-indigo-700 dark:text-indigo-400 hover:underline">
+                                                        {{ $materi->title }}
+                                                    </a>
+                                                </div>
+                                                <a href="{{ route('user.modul.materi.show', [$modul, $materi->slug]) }}"
+                                                    class="inline-flex items-center gap-1 text-sm text-indigo-600 dark:text-indigo-400 hover:underline">
+                                                    Lihat
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                                    </svg>
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <div class="text-gray-500 dark:text-gray-400 text-center py-8">
+                                        Belum ada materi pada modul ini.
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
