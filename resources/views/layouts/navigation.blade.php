@@ -18,9 +18,6 @@
 
                     {{-- TAMBAHKAN KODE INI --}}
                     @if(auth()->user()->role === 'admin')
-                        <x-nav-link :href="route('admin.materi.index')" :active="request()->routeIs('admin.materi.*')">
-                            {{ __('Manajemen Materi') }}
-                        </x-nav-link>
                         <x-nav-link :href="route('admin.modul.index')" :active="request()->routeIs('admin.modul.*')">
                             {{ __('Manajemen Moduls') }}
                         </x-nav-link>

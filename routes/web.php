@@ -43,14 +43,15 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])->prefix('admin')->
     // Dashboard Admin
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
+    // CRUD modul
+    Route::resource('modul', AdminModulController::class);
+
     // CRUD Materi
-    Route::resource('materi', AdminMateriController::class);
+    Route::resource('modul.materi', AdminMateriController::class);
 
     // CRUD Kategori
     Route::resource('kategori', KategoriController::class);
 
-    // CRUD modul
-    Route::resource('modul', AdminModulController::class);
 });
 
 // ==============================

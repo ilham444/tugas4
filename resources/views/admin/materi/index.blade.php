@@ -3,12 +3,13 @@
         <div class="flex flex-col md:flex-row items-center justify-between">
             <div>
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    {{ __('Manajemen Materi') }}
+                    {{ __('Manajemen Materi Untuk Modul') }}
+                    <span class="text-indigo-500">{{ Str::limit($modul->title, 30) }}</span>
                 </h2>
                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Kelola, filter, dan cari semua materi di
                     platform.</p>
             </div>
-            <a href="{{ route('admin.materi.create') }}"
+            <a href="{{ route('admin.modul.materi.create', $modul) }}"
                 class="mt-4 md:mt-0 inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-colors">
                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path
@@ -78,7 +79,7 @@
                                         Judul</th>
                                     <th scope="col"
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        Kategori</th>
+                                        Urutan Materi</th>
                                     <th scope="col"
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                                         Tanggal Dibuat</th>
@@ -98,7 +99,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <span
                                                 class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300">
-                                                {{ $item->kategori->name ?? 'N/A' }}
+                                                {{ $item->urutan ?? 'N/A' }}
                                             </span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
@@ -118,7 +119,7 @@
                                                 {{-- Dropdown Menu Aksi --}}
                                                 <div x-show="open" @click.away="open = false" x-transition
                                                     class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 z-10">
-                                                    <a href="{{ route('admin.materi.edit', $item) }}"
+                                                    <a href="{{ route('admin.modul.materi.edit', [$modul, $item]) }}"
                                                         class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Edit</a>
                                                     <button @click="deleting = true; open = false"
                                                         class="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-800">Hapus</button>
@@ -138,7 +139,8 @@
                                                         <div class="mt-6 flex justify-end gap-4">
                                                             <button @click="deleting = false" type="button"
                                                                 class="px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 rounded-lg">Batal</button>
-                                                            <form action="{{ route('admin.materi.destroy', $item) }}"
+                                                            <form
+                                                                action="{{ route('admin.modul.materi.destroy', [$modul, $item]) }}"
                                                                 method="POST">
                                                                 @csrf
                                                                 @method('DELETE')

@@ -14,7 +14,8 @@ class Materi extends Model
         'description',
         'file_path',
         'modul_id',
-        'slug'
+        'slug',
+        'urutan'
     ];
 
     /**

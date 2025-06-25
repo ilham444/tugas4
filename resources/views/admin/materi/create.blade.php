@@ -17,7 +17,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <form action="{{ route('admin.materi.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.modul.materi.store', $modul) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
@@ -59,27 +59,23 @@
 
                     <!-- Sidebar (Metadata & File Upload) -->
                     <div class="lg:col-span-1 space-y-6">
+                        {{-- Pengaturan --}}
                         <div
                             class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Pengaturan</h3>
 
-                            <!-- Modul -->
-                            <div>
-                                <label for="modul_id"
-                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300">Modul</label>
-                                <select name="modul_id" id="modul_id"
-                                    class="mt-1 block w-full p-3 rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                                    required>
-                                    <option value="" disabled selected>-- Pilih Modul --</option>
-                                    @foreach ($moduls as $modul)
-                                        <option value="{{ $modul->id }}" {{ old('modul_id') == $modul->id ? 'selected' : '' }}>
-                                            {{ Str::limit($modul->title, 60) }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('modul_id') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
+                            {{-- Urutan Materi --}}
+                            <div class="mt-4">
+                                <label for="urutan"
+                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300">Urutan Materi
+                                </label>
+                                <input type="number" name="urutan" id="urutan"
+                                    class="mt-1 block w-full rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                    value="{{ old('urutan', $modul->materis->count() + 1) }}" required min="1">
+                                @error('urutan') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
                             </div>
                         </div>
+
 
                         <div
                             class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
@@ -139,7 +135,7 @@
                     class="fixed bottom-0 left-0 w-full bg-white dark:bg-gray-800/80 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 z-30">
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-3">
                         <div class="flex items-center justify-end gap-4">
-                            <a href="{{ route('admin.materi.index') }}"
+                            <a href="{{ route('admin.modul.materi.index', $modul) }}"
                                 class="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Batal</a>
                             <button type="submit"
                                 class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-5 rounded-lg shadow-md transition-colors">

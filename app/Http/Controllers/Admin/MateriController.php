@@ -12,27 +12,28 @@ use Illuminate\Support\Facades\Storage;
 
 class MateriController extends Controller
 {
-    public function index()
+    public function index(Modul $modul)
     {
-        $materi = Materi::latest()->paginate(10);
-        return view('admin.materi.index', compact('materi'));
+
+        $materi = $modul->materis()->latest()->paginate(10);
+        return view('admin.materi.index', compact('materi', 'modul'));
     }
 
     // Dalam method create()
-    public function create()
+    public function create(Modul $modul)
     {
         $moduls = Modul::all(); // <-- Ambil semua modul
-        return view('admin.materi.create', compact('moduls')); // <-- Kirim ke view
+        return view('admin.materi.create', compact('moduls', 'modul')); // <-- Kirim ke view
     }
 
 
-    public function store(Request $request)
+    public function store(Request $request, Modul $modul)
     {
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'file' => 'required|file|mimes:pdf,jpg,png,mp4|max:10240',
-            'modul_id' => 'required|exists:moduls,id',
+            'urutan' => 'required|integer'
         ]);
 
         $filePath = $request->file('file')->store('materi_files', 'public');
@@ -42,24 +43,27 @@ class MateriController extends Controller
             'description' => $request->description,
             'file_path' => $filePath,
             'kategori_id' => $request->kategori_id,
-            'slug' => \Str::slug($request->title . '-' . now()->format('YmdHis'))
+            'slug' => \Str::slug($request->title . '-' . now()->format('YmdHis')),
+            'modul_id' => $modul->id,
+            'urutan' => $request->urutan
         ]);
 
-        return redirect()->route('admin.materi.index')->with('success', 'Materi berhasil ditambahkan.');
+        return redirect()->route('admin.modul.materi.index', $modul)->with('success', 'Materi berhasil ditambahkan.');
     }
 
-    public function edit(Materi $materi)
+    public function edit(Modul $modul, Materi $materi)
     {
         $kategoris = Kategori::all(); // <-- Ambil semua kategori
-        return view('admin.materi.edit', compact('materi', 'kategoris')); // <-- Kirim ke view
+        return view('admin.materi.edit', compact('materi', 'kategoris', 'modul')); // <-- Kirim ke view
     }
 
-    public function update(Request $request, Materi $materi)
+    public function update(Request $request, Modul $modul, Materi $materi)
     {
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'file' => 'nullable|file|mimes:pdf,jpg,png,mp4|max:10240',
+            'urutan' => 'required|integer'
         ]);
 
         $filePath = $materi->file_path;
@@ -74,9 +78,10 @@ class MateriController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'file_path' => $filePath,
+            'urutan' => $request->urutan
         ]);
 
-        return redirect()->route('admin.materi.index')->with('success', 'Materi berhasil diperbarui.');
+        return redirect()->route('admin.modul.materi.index', $modul)->with('success', 'Materi berhasil diperbarui.');
     }
 
     public function destroy(Materi $materi)
@@ -87,6 +92,6 @@ class MateriController extends Controller
         // Hapus record dari database
         $materi->delete();
 
-        return redirect()->route('admin.materi.index')->with('success', 'Materi berhasil dihapus.');
+        return redirect()->route('admin.modul.materi.index', $materi)->with('success', 'Materi berhasil dihapus.');
     }
 }

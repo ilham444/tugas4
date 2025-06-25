@@ -82,10 +82,12 @@
                                 @forelse ($moduls as $item)
                                     <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-semibold text-gray-900 dark:text-white">
-                                                {{ $item->title }}
-                                            </div>
-                                            <div class="text-xs text-gray-500">{{ Str::limit($item->description, 60) }}</div>
+                                            <a href="{{ route('admin.modul.materi.index', $item) }}">
+                                                <div class="text-sm font-semibold text-gray-900 dark:text-white">
+                                                    {{ $item->title }}
+                                                </div>
+                                                <div class="text-xs text-gray-500">{{ Str::limit($item->description, 60) }}</div>
+                                            </a>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300">
@@ -114,6 +116,7 @@
                                                 </button>
                                                 {{-- Dropdown Menu Aksi --}}
                                                 <div x-show="open" @click.away="open = false" x-transition class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 z-10">
+                                                    <a href="{{ route('admin.modul.materi.index', $item) }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Materi</a>
                                                     <a href="{{ route('admin.modul.edit', $item) }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Edit</a>
                                                     <button @click="deleting = true; open = false" class="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-800">Hapus</button>
                                                 </div>
