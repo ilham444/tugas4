@@ -34,7 +34,7 @@
     @endif
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 relative">
             <div
                 class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-2xl border border-gray-200 dark:border-gray-700/50">
                 <div class="p-6 md:p-8">
@@ -94,7 +94,7 @@
 
                                         <!-- Aksi button -->
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <div x-data="{ open: false, deleting: false }" class="relative">
+                                            <div x-data="{ open: false, deleting: false }">
 
                                                 {{-- Tombol Aksi (Tiga Titik) --}}
                                                 <button @click="open = !open"
@@ -108,13 +108,8 @@
                                                 </button>
 
                                                 <div x-show="open" @click.away="open = false"
-                                                    x-transition:enter="transition ease-out duration-100"
-                                                    x-transition:enter-start="transform opacity-0 scale-95"
-                                                    x-transition:enter-end="transform opacity-100 scale-100"
-                                                    x-transition:leave="transition ease-in duration-75"
-                                                    x-transition:leave-start="transform opacity-100 scale-100"
-                                                    x-transition:leave-end="transform opacity-0 scale-95" x-cloak
-                                                    class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 z-20 origin-top-right text-left">
+                                                    :class="{'': open, 'hidden': !open}"
+                                                    class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 z-20 origin-top-right text-left">
                                                     <a href="{{ route('admin.kategori.edit', $item) }}"
                                                         class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Edit</a>
 
@@ -124,7 +119,8 @@
 
                                                 {{-- Modal Konfirmasi Hapus (FIXED) --}}
                                                 <div x-show="deleting" x-cloak x-transition
-                                                    class="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50">
+                                                    :class="{'flex': deleting, 'hidden': !deleting}"
+                                                    class="fixed inset-0 z-40 hidden items-center justify-center bg-black bg-opacity-50">
                                                     <div @click.away="deleting = false"
                                                         class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md w-full">
                                                         <h3

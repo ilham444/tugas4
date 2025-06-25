@@ -33,13 +33,12 @@
     @endif
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 relative">
             <div
                 class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-2xl border border-gray-200 dark:border-gray-700/50">
-                <div class="p-6 md:p-8">
-
+                <div class="p-6 md:p-8 ">
                     <!-- Panel Kontrol Tabel (Filter & Pencarian) -->
-                    <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 ">
                         <div class="w-full md:w-1/2 lg:w-1/3">
                             <label for="search" class="sr-only">Cari</label>
                             <div class="relative">
@@ -104,7 +103,7 @@
                                             {{ $item->created_at->format('d M Y') }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <div x-data="{ open: false, deleting: false }" class="relative">
+                                            <div x-data="{ open: false, deleting: false }">
                                                 <button @click="open = !open"
                                                     class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white">
                                                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -115,14 +114,14 @@
                                                     </svg>
                                                 </button>
                                                 {{-- Dropdown Menu Aksi --}}
-                                                <div x-show="open" @click.away="open = false" x-transition class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 z-10">
+                                                <div x-show="open" @click.away="open = false" x-transition :class="{'': open, 'hidden': !open}" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 z-10 text-left">
                                                     <a href="{{ route('admin.modul.materi.index', $item) }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Materi</a>
                                                     <a href="{{ route('admin.modul.edit', $item) }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Edit</a>
                                                     <button @click="deleting = true; open = false" class="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-800">Hapus</button>
                                                 </div>
 
                                                 {{-- Modal Konfirmasi Hapus --}}
-                                                <div x-show="deleting" x-cloak x-transition class="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50">
+                                                <div x-show="deleting" :class="{'flex': deleting, 'hidden': !deleting}" x-cloak x-transition class="fixed inset-0 z-40 hidden items-center justify-center bg-black bg-opacity-50">
                                                     <div @click.away="deleting = false" class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md w-full">
                                                         <h3 class="text-xl font-bold text-gray-900 dark:text-white">Konfirmasi Penghapusan</h3>
                                                         <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Anda yakin ingin menghapus modul <span class="font-semibold">"{{ $item->title }}"</span>? Tindakan ini tidak dapat diurungkan.</p>

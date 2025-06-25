@@ -31,7 +31,7 @@
     @endif
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 relative">
             <div
                 class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-2xl border border-gray-200 dark:border-gray-700/50">
                 <div class="p-6 md:p-8">
@@ -102,7 +102,7 @@
                                             {{ $item->created_at->format('d M Y') }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <div x-data="{ open: false, deleting: false }" class="relative">
+                                            <div x-data="{ open: false, deleting: false }">
 
                                                 <button @click="open = !open"
                                                     class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white">
@@ -115,7 +115,8 @@
 
                                                 <!-- Dropdown -->
                                                 <div x-show="open" @click.away="open = false" x-transition
-                                                    class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 z-10">
+                                                    :class="{'': open, 'hidden': !open}"
+                                                    class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 z-10 text-left">
                                                     <a href="{{ route('admin.modul.materi.edit', [$modul, $item]) }}"
                                                         class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Edit</a>
                                                     <button @click="deleting = true; open = false"
@@ -124,7 +125,8 @@
 
                                                 <!-- Modal Hapus -->
                                                 <div x-show="deleting" x-cloak x-transition
-                                                    class="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50">
+                                                    :class="{'flex': deleting, 'hidden': !deleting}"
+                                                    class="fixed inset-0 z-40 hidden items-center justify-center bg-black bg-opacity-50">
                                                     <div @click.away="deleting = false"
                                                         class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md w-full">
                                                         <h3 class="text-xl font-bold text-gray-900 dark:text-white">
