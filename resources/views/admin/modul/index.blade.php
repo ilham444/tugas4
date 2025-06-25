@@ -11,7 +11,8 @@
             <a href="{{ route('admin.modul.create') }}"
                 class="mt-4 md:mt-0 inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-colors">
                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                    <path
+                        d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
                 </svg>
                 Tambah Modul
             </a>
@@ -56,9 +57,11 @@
                         </div>
                         <div class="flex items-center gap-3">
                             {{-- Filter Kategori (Contoh, perlu dihubungkan dengan logic backend) --}}
-                            <select class="text-sm rounded-lg border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 focus:ring-indigo-500 focus:border-indigo-500">
+                            <select
+                                class="text-sm rounded-lg border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 focus:ring-indigo-500 focus:border-indigo-500">
                                 <option value="">Semua Kategori</option>
-                                {{-- @foreach($kategoris as $kategori) <option value="{{ $kategori->id }}">{{ $kategori->name }}</option> @endforeach --}}
+                                {{-- @foreach($kategoris as $kategori) <option value="{{ $kategori->id }}">{{
+                                    $kategori->name }}</option> @endforeach --}}
                             </select>
                             {{-- Tambahkan filter lain jika perlu --}}
                         </div>
@@ -69,11 +72,21 @@
                         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                             <thead class="bg-gray-50 dark:bg-gray-700/50">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Judul</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Kategori</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Estimasi</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Jumlah Materi</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Tanggal Dibuat</th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                        Judul</th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                        Kategori</th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                        Estimasi</th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                        Jumlah Materi</th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                        Tanggal Dibuat</th>
                                     <th scope="col" class="relative px-6 py-3"><span class="sr-only">Aksi</span></th>
                                 </tr>
                             </thead>
@@ -85,11 +98,13 @@
                                                 <div class="text-sm font-semibold text-gray-900 dark:text-white">
                                                     {{ $item->title }}
                                                 </div>
-                                                <div class="text-xs text-gray-500">{{ Str::limit($item->description, 60) }}</div>
+                                                <div class="text-xs text-gray-500">{{ Str::limit($item->description, 60) }}
+                                                </div>
                                             </a>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300">
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300">
                                                 {{ $item->kategori->name ?? 'N/A' }}
                                             </span>
                                         </td>
@@ -114,23 +129,40 @@
                                                     </svg>
                                                 </button>
                                                 {{-- Dropdown Menu Aksi --}}
-                                                <div x-show="open" @click.away="open = false" x-transition :class="{'': open, 'hidden': !open}" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 z-10 text-left">
-                                                    <a href="{{ route('admin.modul.materi.index', $item) }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Materi</a>
-                                                    <a href="{{ route('admin.modul.edit', $item) }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Edit</a>
-                                                    <button @click="deleting = true; open = false" class="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-800">Hapus</button>
+                                                <div x-show="open" @click.away="open = false" x-transition
+                                                    :class="{'': open, 'hidden': !open}"
+                                                    class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 z-10 text-left">
+                                                    <a href="{{ route('admin.modul.materi.index', $item) }}"
+                                                        class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Materi</a>
+                                                    <a href="{{ route('admin.modul.edit', $item) }}"
+                                                        class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Edit</a>
+                                                    <button @click="deleting = true; open = false"
+                                                        class="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-800">Hapus</button>
                                                 </div>
 
                                                 {{-- Modal Konfirmasi Hapus --}}
-                                                <div x-show="deleting" :class="{'flex': deleting, 'hidden': !deleting}" x-cloak x-transition class="fixed inset-0 z-40 hidden items-center justify-center bg-black bg-opacity-50">
-                                                    <div @click.away="deleting = false" class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md w-full">
-                                                        <h3 class="text-xl font-bold text-gray-900 dark:text-white">Konfirmasi Penghapusan</h3>
-                                                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Anda yakin ingin menghapus modul <span class="font-semibold">"{{ $item->title }}"</span>? Tindakan ini tidak dapat diurungkan.</p>
-                                                        <div class="mt-6 flex justify-end gap-4">
-                                                            <button @click="deleting = false" type="button" class="px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 rounded-lg">Batal</button>
-                                                            <form action="{{ route('admin.modul.destroy', $item) }}" method="POST">
+                                                <div x-show="deleting" :class="{'flex': deleting, 'hidden': !deleting}"
+                                                    x-cloak x-transition
+                                                    class="fixed inset-0 z-40 hidden items-center justify-center bg-black bg-opacity-50">
+                                                    <div @click.away="deleting = false"
+                                                        class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md w-full  text-left text-wrap">
+                                                        <h3
+                                                            class="text-xl font-bold text-gray-900 dark:text-white text-center">
+                                                            Konfirmasi Penghapusan</h3>
+                                                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-300 ">
+                                                            Anda yakin ingin menghapus modul <span
+                                                                class="font-semibold">"{{ $item->title }}"</span>? Tindakan
+                                                            ini tidak dapat diurungkan.</p>
+                                                        <div class="mt-6 flex justify-between gap-4">
+                                                            <button @click="deleting = false" type="button"
+                                                                class="px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 rounded-lg">Batal</button>
+                                                            <form action="{{ route('admin.modul.destroy', $item) }}"
+                                                                method="POST">
                                                                 @csrf
                                                                 @method('DELETE')
-                                                                <button type="submit" class="px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-lg">Ya, Hapus</button>
+                                                                <button type="submit"
+                                                                    class="px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-lg">Ya,
+                                                                    Hapus</button>
                                                             </form>
                                                         </div>
                                                     </div>
@@ -142,8 +174,10 @@
                                     <tr>
                                         <td colspan="6" class="px-6 py-12 text-center">
                                             <div class="flex flex-col items-center">
-                                                <svg class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                                                <svg class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24"
+                                                    stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
                                                 </svg>
                                                 <p class="mt-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Tidak
                                                     Ada Data Modul</p>

@@ -122,9 +122,9 @@
                                                     :class="{'flex': deleting, 'hidden': !deleting}"
                                                     class="fixed inset-0 z-40 hidden items-center justify-center bg-black bg-opacity-50">
                                                     <div @click.away="deleting = false"
-                                                        class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md w-full">
+                                                        class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md w-full text-wrap text-left">
                                                         <h3
-                                                            class="text-xl font-bold text-gray-900 dark:text-white text-left">
+                                                            class="text-xl font-bold text-gray-900 dark:text-white text-center">
                                                             Konfirmasi Penghapusan
                                                         </h3>
                                                         {{-- Teks sudah diperbaiki ke $item->name --}}
@@ -133,7 +133,7 @@
                                                             Anda yakin ingin menghapus kategori <span
                                                                 class="font-semibold">"{{ $item->name }}"</span>? Tindakan
                                                             ini tidak dapat diurungkan.</p>
-                                                        <div class="mt-6 flex justify-end gap-4">
+                                                        <div class="mt-6 flex justify-between gap-4">
                                                             <button @click="deleting = false" type="button"
                                                                 class="px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 rounded-lg">Batal</button>
 
