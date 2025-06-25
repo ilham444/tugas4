@@ -84,7 +84,7 @@ class MateriController extends Controller
         return redirect()->route('admin.modul.materi.index', $modul)->with('success', 'Materi berhasil diperbarui.');
     }
 
-    public function destroy(Materi $materi)
+    public function destroy(Modul $modul, Materi $materi)
     {
         // Hapus file dari storage
         Storage::disk('public')->delete($materi->file_path);
@@ -92,6 +92,6 @@ class MateriController extends Controller
         // Hapus record dari database
         $materi->delete();
 
-        return redirect()->route('admin.modul.materi.index', $materi)->with('success', 'Materi berhasil dihapus.');
+        return redirect()->route('admin.modul.materi.index', $modul)->with('success', 'Materi berhasil dihapus.');
     }
 }
