@@ -28,4 +28,5 @@ class Modul extends Model
     {
         return 'slug';
     }
+    
 }

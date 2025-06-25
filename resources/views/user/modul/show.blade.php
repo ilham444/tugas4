@@ -146,6 +146,7 @@
                     </div>
                 </div>
 
+                
                 <!-- ============================================= -->
                 <!-- Kolom Informasi (Kanan, 1/3) - Sidebar -->
                 <!-- ============================================= -->
@@ -159,7 +160,11 @@
                                 <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
                                     Mulai belajar dari materi pertama pada modul ini secara berurutan.
                                 </p>
-                                @if($modul->materis)
+                                {{--
+                                    FIX: Changed condition from @if($modul->materis) to @if($modul->materis->count() > 0)
+                                    This prevents the "Attempt to read property on null" error when a module has no materials.
+                                --}}
+                                @if($modul->materis->count() > 0)
                                     <a href="{{ route('user.modul.materi.show', [$modul, $modul->materis->first()->slug]) }}"
                                         class="w-full flex items-center justify-center gap-2 px-4 py-3 font-semibold rounded-lg transition-all duration-300 bg-indigo-600 hover:bg-indigo-700 text-white">
                                         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none"

@@ -1,58 +1,96 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    {{-- Judul halaman dinamis, dengan fallback ke nama aplikasi --}}
     <title>{{ $title ?? config('app.name', 'EduPlatform') }}</title>
 
-    <!-- Fonts: Menggunakan Poppins agar konsisten dengan tema EduPlatform -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <!-- Styles & Scripts dari Vite -->
+    <!-- Styles & Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <!-- CSS untuk menerapkan font Poppins dan transisi halus -->
     <style>
-        /* Menerapkan font Poppins ke seluruh body */
         body {
             font-family: 'Poppins', sans-serif;
         }
-        /* Transisi yang lebih halus untuk semua elemen saat berganti mode (light/dark) */
-        *, ::before, ::after {
-            transition: background-color .3s, border-color .3s, color .3s, fill .3s, stroke .3s;
-            transition-timing-function: cubic-bezier(.4,0,.2,1);
-        }
+        /* Transisi bisa membuat UI terasa lebih lambat, opsional untuk dihapus */
+        /* *, ::before, ::after { transition: all 0.3s ease-in-out; } */
     </style>
 </head>
-<body class="font-sans antialiased text-gray-800 dark:text-gray-200">
 
-    <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+<body class="font-sans antialiased bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
 
-        {{-- Memasukkan file navigasi --}}
-        @include('layouts.navigation')
+    <div class="min-h-screen flex flex-col">
 
-        {{-- Header Halaman (Jika ada) --}}
-        @isset($header)
-            <header class="bg-white dark:bg-gray-800 shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{-- Slot untuk konten header, seperti judul halaman --}}
-                    {{ $header }}
+        {{-- Sticky Navbar --}}
+        <nav class="sticky top-0 z-50 bg-white dark:bg-gray-800 shadow-md">
+            @include('layouts.navigation')
+        </nav>
+
+        {{-- Header Halaman --}}
+        @if (isset($header))
+        <header class="bg-white dark:bg-gray-800 shadow">
+            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    {{-- Bagian Kiri: Slot untuk judul halaman --}}
+                    <div>
+                        {{ $header }}
+                    </div>
+
+                    {{-- ===================== PERBAIKAN DI SINI ===================== --}}
+                    
+                    {{-- Bagian Kanan: Wadah untuk tombol-tombol aksi global --}}
+                    {{-- Tampilkan tombol ini HANYA jika pengguna adalah admin --}}
+                    @auth
+                        @if(auth()->user()->role === 'admin')
+                            <div class="flex items-center gap-3 flex-shrink-0">
+                                {{-- Tombol Tambah Soal Quiz --}}
+                                <a href="{{ route('admin.questions.create') }}"
+                                    class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                                    </svg>
+                                    <span>Tambah Soal</span>
+                                </a>
+
+                                {{-- Tombol Tambah Modul --}}
+                                <a href="{{ route('admin.modul.create') }}"
+                                    class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                                    </svg>
+                                    <span>Tambah Modul</span>
+                                </a>
+                            </div>
+                        @endif
+                    @endauth
+                    {{-- ======================= AKHIR PERBAIKAN ======================= --}}
                 </div>
-            </header>
-        @endisset
+            </div>
+        </header>
+        @endif
 
-        {{-- Konten Utama Halaman --}}
-        <main>
-            {{-- Slot utama di mana konten dari setiap halaman (misal: dashboard.blade.php) akan ditampilkan --}}
+        {{-- Konten Utama --}}
+        <main class="flex-grow">
             {{ $slot }}
         </main>
 
-    </div>
+        {{-- Footer --}}
+        <footer class="bg-white dark:bg-gray-800 text-center text-sm py-4 mt-8 border-t border-gray-200 dark:border-gray-700">
+            <span class="text-gray-500 dark:text-gray-400">© {{ date('Y') }} EduPlatform. All rights reserved.</span>
+        </footer>
 
+    </div>
+    
+    {{-- Stack untuk script tambahan dari halaman lain --}}
+    @stack('scripts')
 </body>
+
 </html>
