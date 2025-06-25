@@ -30,51 +30,58 @@ Route::get('/', function () {
 // Redirect ke Dashboard berdasarkan Role
 // ==============================
 Route::get('/dashboard', function () {
-    if (auth()->user()->role === 'admin') {
+    $user = auth()->user();
+    if ($user->role === 'admin') {
         return redirect()->route('admin.dashboard');
-    } elseif (auth()->user()->role === 'user') {
+    } elseif ($user->role === 'user') {
         return redirect()->route('user.dashboard');
     }
     return redirect('/');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // ==============================
-// Grup Rute ADMIN (dengan Prefix & Middleware)
+// Grup Rute ADMIN
 // ==============================
-Route::middleware(['auth', RoleMiddleware::class . ':admin'])->prefix('admin')->name('admin.')->group(function () {
-    // Dashboard Admin
-    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+Route::middleware(['auth', RoleMiddleware::class . ':admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        // Dashboard Admin
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-    // CRUD modul
-    Route::resource('modul', AdminModulController::class);
+        // CRUD modul
+        Route::resource('modul', AdminModulController::class); // route name otomatis: admin.modul.index, etc.
 
-    // CRUD Materi
-    Route::resource('modul.materi', AdminMateriController::class);
+        // CRUD Materi
+        Route::resource('modul.materi', AdminMateriController::class); // route name otomatis: admin.modulmateri.index, etc.
 
-    // CRUD Kategori
-    Route::resource('kategori', KategoriController::class);
+        // CRUD Kategori
+        Route::resource('kategori', KategoriController::class); // route name otomatis: admin.kategori.index, etc.
 
-});
-
-// ==============================
-// Grup Rute USER (dengan Prefix & Middleware)
-// ==============================
-Route::middleware(['auth', RoleMiddleware::class . ':user'])->prefix('user')->name('user.')->group(function () {
-    // Dashboard User
-    Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
-
-    // Materi hanya bisa diakses `show` oleh user
-    Route::resource('modul.materi', UserMateriController::class)->only(['show']);
-
-    // Modul hanya bisa diakses `show` oleh user
-    Route::resource('modul', UserModulController::class)->only(['show']);
-});
+    });
 
 // ==============================
-// Rute untuk Profile (Laravel Breeze) & Komentar
+// Grup Rute USER
+// ==============================
+Route::middleware(['auth', RoleMiddleware::class . ':user'])
+    ->prefix('user')
+    ->name('user.')
+    ->group(function () {
+        // Dashboard User
+        Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
+
+        // Materi hanya bisa diakses `show` oleh user
+        Route::resource('modul.materi', UserMateriController::class)->only(['show']);
+
+        // Modul hanya bisa diakses `show` oleh user
+        Route::resource('modul', UserModulController::class)->only(['show']);
+    });
+
+// ==============================
+// Rute untuk Profile & Komentar
 // ==============================
 Route::middleware('auth')->group(function () {
-    // Profil
+    // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -84,6 +91,6 @@ Route::middleware('auth')->group(function () {
 });
 
 // ==============================
-// Auth Routes (dari Laravel Breeze)
+// Auth Routes (Breeze Default)
 // ==============================
 require __DIR__ . '/auth.php';

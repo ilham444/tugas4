@@ -19,8 +19,8 @@
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="2" d="m1 9 4-4-4-4" />
                             </svg>
-                            <span
-                                class="ml-1 text-sm font-medium text-gray-700 md:ml-2 dark:text-gray-300">{{ $modul->kategori->name }}</span>
+                            <a href="{{ route('user.modul.show', $modul->slug) }}"
+                                class="ml-1 text-sm font-medium text-gray-700 md:ml-2 dark:text-gray-300">{{ $modul->title }}</a>
                         </div>
                     </li>
                 </ol>
@@ -56,6 +56,10 @@
                             <div class="aspect-w-4 aspect-h-5" style="height: 80vh;">
                                 <iframe src="{{ Storage::url($materi->file_path) }}#toolbar=0" class="w-full h-full"
                                     frameborder="0"></iframe>
+                            </div>
+                        @elseif(in_array(strtolower($fileExtension), ['png', 'jpg', 'jpeg']))
+                            <div class="aspect-w-16 aspect-h-9 bg-black">
+                                <img src="{{ Storage::url($modul->thumbnail) }}" alt="{{ $modul->title }}" />
                             </div>
                         @else
                             {{-- Tampilan untuk file yang tidak bisa di-preview --}}
@@ -247,14 +251,6 @@
                     @isset($nextMateri)
                         <div
                             class="bg-white dark:bg-gray-800 shadow-xl rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden flex flex-col">
-                            <div
-                                class="h-32 w-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center">
-                                <svg class="h-16 w-16 text-white opacity-30" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                </svg>
-                            </div>
                             <div class="p-6 flex-1 flex flex-col justify-between">
                                 <div>
                                     <h3

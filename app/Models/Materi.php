@@ -34,6 +34,9 @@ class Materi extends Model
         return $this->belongsTo(Modul::class);
     }
 
+    /**
+     * Gunakan slug untuk route binding
+     */
     public function getRouteKeyName(): string
     {
         return 'slug';

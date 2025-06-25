@@ -17,9 +17,8 @@ class KomentarController extends Controller
             'body' => 'required|string|max:1000',
         ]);
 
-
         Komentar::create([
-            'user_id' => auth()->id(),
+            'user_id' => auth()->id(), // ✅ fix
             'materi_id' => $validated['materi_id'],
             'body' => $validated['body'],
         ]);

@@ -8,7 +8,6 @@
                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Lakukan perubahan pada detail materi di bawah
                     ini.</p>
             </div>
-            {{-- Tombol Hapus dengan Konfirmasi Modal --}}
             <div x-data="{ open: false }">
                 <button @click="open = true" type="button"
                     class="inline-flex items-center gap-2 bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-500/20 font-semibold py-2 px-4 rounded-lg transition-colors">
@@ -19,19 +18,13 @@
                     </svg>
                     Hapus Materi
                 </button>
-
-                {{-- Modal Konfirmasi --}}
-                <div x-show="open" x-cloak x-transition:enter="ease-out duration-300"
-                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                    x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100"
-                    x-transition:leave-end="opacity-0"
+                <div x-show="open" x-cloak x-transition
                     class="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50">
                     <div @click.away="open = false"
                         class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md w-full">
                         <h3 class="text-xl font-bold text-gray-900 dark:text-white">Konfirmasi Penghapusan</h3>
                         <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Apakah Anda yakin ingin menghapus
-                            materi <span class="font-semibold">"{{ $materi->title }}"</span> secara permanen? Tindakan
-                            ini tidak dapat diurungkan.</p>
+                            materi <span class="font-semibold">"{{ $materi->title }}"</span> secara permanen?</p>
                         <div class="mt-6 flex justify-end gap-4">
                             <button @click="open = false" type="button"
                                 class="px-4 py-2 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 rounded-lg">Batal</button>
@@ -56,43 +49,33 @@
                 @csrf
                 @method('PUT')
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-                    <!-- Kolom Utama (Input Konten) -->
                     <div class="lg:col-span-2 space-y-6">
                         <div
                             class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
-                            <!-- Judul Materi -->
-                            <div>
-                                <label for="title"
-                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300">Judul
-                                    Materi</label>
-                                <input type="text" name="title" id="title"
-                                    class="mt-1 block w-full text-lg font-semibold p-3 rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                                    value="{{ old('title', $materi->title) }}" required>
-                                @error('title') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
-                            </div>
+                            <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Judul
+                                Materi</label>
+                            <input type="text" name="title" id="title" value="{{ old('title', $materi->title) }}"
+                                required
+                                class="mt-1 block w-full text-lg font-semibold p-3 rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500">
+                            @error('title') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
                         </div>
 
                         <div
                             class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
-                            <!-- Deskripsi -->
-                            <div>
-                                <label for="description"
-                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Deskripsi
-                                    Lengkap</label>
-                                <textarea name="description" id="description" rows="10"
-                                    class="mt-1 block w-full rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                                    required>{{ old('description', $materi->description) }}</textarea>
-                                @error('description') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
-                            </div>
+                            <label for="description"
+                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Deskripsi
+                                Lengkap</label>
+                            <textarea name="description" id="description" rows="10" required
+                                class="mt-1 block w-full rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500">{{ old('description', $materi->description) }}</textarea>
+                            @error('description') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
                         </div>
                     </div>
 
-                    <!-- Sidebar (Metadata & File Upload) -->
                     <div class="lg:col-span-1 space-y-6">
                         <div
                             class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Pengaturan</h3>
+                            {{-- Urutan Materi --}}
                             <div class="mt-4">
                                 <label for="urutan"
                                     class="block text-sm font-medium text-gray-700 dark:text-gray-300">Urutan Materi
@@ -102,14 +85,11 @@
                                     value="{{ old('urutan', $materi->urutan) }}" required min="1">
                                 @error('urutan') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
                             </div>
-
                         </div>
 
                         <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700"
                             x-data="{ showUploader: false }">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">File Materi</h3>
-
-                            {{-- Tampilan File Saat Ini --}}
                             <div x-show="!showUploader" class="space-y-4">
                                 <div class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
                                     <div
@@ -130,8 +110,6 @@
                                     class="w-full text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">Ganti
                                     File</button>
                             </div>
-
-                            {{-- Area Drag & Drop (Muncul saat 'Ganti File' diklik) --}}
                             <div x-show="showUploader" x-cloak>
                                 <div x-data="fileDrop()"
                                     class="relative flex flex-col items-center justify-center w-full p-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg text-center cursor-pointer hover:border-indigo-500 dark:hover:border-indigo-400 transition-colors">
@@ -155,8 +133,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Footer Aksi "Sticky" -->
                 <div
                     class="fixed bottom-0 left-0 w-full bg-white dark:bg-gray-800/80 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 z-30">
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-3">
@@ -178,12 +154,33 @@
             </form>
         </div>
     </div>
-
-    {{-- Script Alpine.js (sama seperti halaman tambah) --}}
     <script>
-        // Letakkan di file JS terpisah atau di layout utama
-        if (typeof fileDrop === 'undefined') {
-            function fileDrop() { /* ... kode dari halaman Tambah ... */ }
+        function fileDrop() {
+            return {
+                dragging: false,
+                fileName: '',
+                fileSize: '',
+                handleFileSelect(event) {
+                    if (event.target.files.length > 0) {
+                        this.fileName = event.target.files[0].name;
+                        this.fileSize = this.formatBytes(event.target.files[0].size);
+                    }
+                },
+                removeFile() {
+                    const fileInput = document.getElementById('file');
+                    fileInput.value = '';
+                    this.fileName = '';
+                    this.fileSize = '';
+                },
+                formatBytes(bytes, decimals = 2) {
+                    if (bytes === 0) return '0 Bytes';
+                    const k = 1024;
+                    const dm = decimals < 0 ? 0 : decimals;
+                    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+                    const i = Math.floor(Math.log(bytes) / Math.log(k));
+                    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+                }
+            }
         }
     </script>
 </x-app-layout>

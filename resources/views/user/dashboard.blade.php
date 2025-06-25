@@ -136,7 +136,7 @@ CATATAN PENGEMBANG:
                                             class="group flex flex-col bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 transform hover:-translate-y-1">
                                             <a href="{{ route('user.modul.show', $item->slug) }}" class="block overflow-hidden">
                                                 <!-- <img class="h-48 w-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110" src="https://source.unsplash.com/600x400/?{{ urlencode($item->kategori->name) }},technology,{{ rand(1, 100) }}" alt="">
-                                                                                                                                                                                </a> -->
+                                                                                                                                                                                                                                            </a> -->
                                                 <div class="p-5 flex flex-col flex-grow">
                                                     <span
                                                         class="text-xs font-semibold text-primary uppercase tracking-wider mb-2">{{ $item->kategori->name }}</span>
@@ -156,14 +156,14 @@ CATATAN PENGEMBANG:
                                                                 viewBox="0 0 24 24" stroke="currentColor">
                                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                                     stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
-                                                            </svg> 15 Pelajaran</div>
-                                                        <div class="flex items-center gap-1.5"><svg class="h-4 w-4" fill="none"
-                                                                viewBox="0 0 24 24" stroke="currentColor">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    stroke-width="2"
-                                                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
-                                                                </path>
-                                                            </svg> Menengah</div>
+                                                            </svg> {{ $item->materis->count()  }} Materi</div>
+                                                        <!-- <div class="flex items-center gap-1.5"><svg class="h-4 w-4" fill="none"
+                                                                            viewBox="0 0 24 24" stroke="currentColor">
+                                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                                stroke-width="2"
+                                                                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                                                                            </path>
+                                                                        </svg> Menengah</div> -->
                                                     </div>
                                                     <a href="{{ route('user.modul.show', $item->slug) }}"
                                                         class="mt-auto w-full text-center bg-primary hover:bg-primary-dark text-white font-semibold py-2.5 px-4 rounded-lg transition-colors duration-300">
