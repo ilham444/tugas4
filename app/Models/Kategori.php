@@ -10,8 +10,8 @@ class Kategori extends Model
     protected $fillable = ['name', 'slug'];
 
     // Satu kategori memiliki banyak materi
-    public function materis()
+    public function moduls()
     {
-        return $this->hasMany(Materi::class);
+        return $this->hasMany(Modul::class);
     }
 }
