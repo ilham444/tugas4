@@ -134,9 +134,9 @@ CATATAN PENGEMBANG:
                                     @foreach($kategoris->pluck('moduls')->flatten() as $item)
                                         <div
                                             class="group flex flex-col bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 transform hover:-translate-y-1">
-                                            <a href="{{ route('user.materi.show', $item->slug) }}" class="block overflow-hidden">
+                                            <a href="{{ route('user.modul.show', $item->slug) }}" class="block overflow-hidden">
                                                 <!-- <img class="h-48 w-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110" src="https://source.unsplash.com/600x400/?{{ urlencode($item->kategori->name) }},technology,{{ rand(1, 100) }}" alt="">
-                                                                                                                                                        </a> -->
+                                                                                                                                                                                </a> -->
                                                 <div class="p-5 flex flex-col flex-grow">
                                                     <span
                                                         class="text-xs font-semibold text-primary uppercase tracking-wider mb-2">{{ $item->kategori->name }}</span>
@@ -165,7 +165,7 @@ CATATAN PENGEMBANG:
                                                                 </path>
                                                             </svg> Menengah</div>
                                                     </div>
-                                                    <a href="{{ route('user.materi.show', $item->slug) }}"
+                                                    <a href="{{ route('user.modul.show', $item->slug) }}"
                                                         class="mt-auto w-full text-center bg-primary hover:bg-primary-dark text-white font-semibold py-2.5 px-4 rounded-lg transition-colors duration-300">
                                                         Lihat Materi
                                                     </a>
