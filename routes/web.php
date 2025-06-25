@@ -11,6 +11,7 @@ use App\Http\Controllers\KomentarController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\MateriController as AdminMateriController;
 use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\ModulController as AdminModulController;
 
 // User Controllers
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
@@ -47,6 +48,9 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])->prefix('admin')->
 
     // CRUD Kategori
     Route::resource('kategori', KategoriController::class);
+
+    // CRUD modul
+    Route::resource('modul', AdminModulController::class);
 });
 
 // ==============================
@@ -76,4 +80,4 @@ Route::middleware('auth')->group(function () {
 // ==============================
 // Auth Routes (dari Laravel Breeze)
 // ==============================
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

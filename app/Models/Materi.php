@@ -13,7 +13,7 @@ class Materi extends Model
         'title',
         'description',
         'file_path',
-        'kategori_id',
+        'modul_id',
         'slug'
     ];
 
@@ -26,11 +26,11 @@ class Materi extends Model
     }
 
     /**
-     * Relasi Materi -> Kategori
+     * Relasi Materi -> Modul
      */
-    public function kategori()
+    public function modul()
     {
-        return $this->belongsTo(Kategori::class);
+        return $this->belongsTo(Modul::class);
     }
 
     public function getRouteKeyName(): string

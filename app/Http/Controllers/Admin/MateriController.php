@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Kategori;
 use App\Models\Materi;
+use App\Models\Modul;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,8 +21,8 @@ class MateriController extends Controller
     // Dalam method create()
     public function create()
     {
-        $kategoris = Kategori::all(); // <-- Ambil semua kategori
-        return view('admin.materi.create', compact('kategoris')); // <-- Kirim ke view
+        $moduls = Modul::all(); // <-- Ambil semua modul
+        return view('admin.materi.create', compact('moduls')); // <-- Kirim ke view
     }
 
 
@@ -31,7 +32,7 @@ class MateriController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'file' => 'required|file|mimes:pdf,jpg,png,mp4|max:10240',
-            'kategori_id' => 'required|exists:kategoris,id', // max 10MB
+            'modul_id' => 'required|exists:moduls,id',
         ]);
 
         $filePath = $request->file('file')->store('materi_files', 'public');
