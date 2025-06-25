@@ -154,23 +154,30 @@
                     <div
                         class="bg-white dark:bg-gray-800 shadow-xl rounded-2xl border border-gray-200 dark:border-gray-700">
                         <div class="p-6 space-y-6">
-                            <div x-data="{ completed: false }">
-                                <button @click="completed = !completed"
-                                    class="w-full flex items-center justify-center gap-2 px-4 py-3 font-semibold rounded-lg transition-all duration-300"
-                                    :class="completed ? 'bg-green-600 text-white' : 'bg-indigo-600 hover:bg-indigo-700 text-white'">
-                                    <svg x-show="completed" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd"
-                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                    <svg x-show="!completed" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg"
-                                        fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span x-text="completed ? 'Sudah Selesai!' : 'Tandai Selesai'"></span>
-                                </button>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Ikuti Materi</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                                    Mulai belajar dari materi pertama pada modul ini secara berurutan.
+                                </p>
+                                @if($modul->materis)
+                                    <a href="{{ route('user.modul.materi.show', [$modul, $modul->materis->first()->slug]) }}"
+                                        class="w-full flex items-center justify-center gap-2 px-4 py-3 font-semibold rounded-lg transition-all duration-300 bg-indigo-600 hover:bg-indigo-700 text-white">
+                                        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                        </svg>
+                                        Mulai Belajar
+                                    </a>
+                                    <div class="mt-3 text-xs text-gray-500 dark:text-gray-400">
+                                        Materi pertama: <span
+                                            class="font-semibold">{{ $modul->materis->first()->title }}</span>
+                                    </div>
+                                @else
+                                    <div class="text-gray-500 dark:text-gray-400 text-center py-4">
+                                        Belum ada materi pada modul ini.
+                                    </div>
+                                @endif
                             </div>
                             <ul class="text-sm space-y-4">
                                 <li class="flex items-center justify-between">
