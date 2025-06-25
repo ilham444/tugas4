@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
 
@@ -11,10 +12,12 @@ use App\Http\Controllers\KomentarController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\MateriController as AdminMateriController;
 use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\ModulController as AdminModulController;
 
 // User Controllers
 use App\Http\Controllers\User\DashboardController as UserDashboardController;
 use App\Http\Controllers\User\MateriController as UserMateriController;
+use App\Http\Controllers\User\ModulController as UserModulController;
 
 // ==============================
 // Halaman Awal (Landing Page)
@@ -46,11 +49,15 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
         // Dashboard Admin
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
+        // CRUD modul
+        Route::resource('modul', AdminModulController::class); // route name otomatis: admin.modul.index, etc.
+
         // CRUD Materi
-        Route::resource('materi', AdminMateriController::class); // route name otomatis: admin.materi.index, etc.
+        Route::resource('modul.materi', AdminMateriController::class); // route name otomatis: admin.modulmateri.index, etc.
 
         // CRUD Kategori
         Route::resource('kategori', KategoriController::class); // route name otomatis: admin.kategori.index, etc.
+
     });
 
 // ==============================
@@ -64,7 +71,10 @@ Route::middleware(['auth', RoleMiddleware::class . ':user'])
         Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
 
         // Materi hanya bisa diakses `show` oleh user
-        Route::resource('materi', UserMateriController::class)->only(['show']);
+        Route::resource('modul.materi', UserMateriController::class)->only(['show']);
+
+        // Modul hanya bisa diakses `show` oleh user
+        Route::resource('modul', UserModulController::class)->only(['show']);
     });
 
 // ==============================
@@ -83,4 +93,4 @@ Route::middleware('auth')->group(function () {
 // ==============================
 // Auth Routes (Breeze Default)
 // ==============================
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

@@ -11,11 +11,11 @@ class Materi extends Model
 
     protected $fillable = [
         'title',
-        'slug', // ✅ Tambahkan ini
         'description',
         'file_path',
-        'kategori_id',
-        'slug'
+        'modul_id',
+        'slug',
+        'urutan'
     ];
 
     /**
@@ -27,11 +27,11 @@ class Materi extends Model
     }
 
     /**
-     * Relasi Materi -> Kategori
+     * Relasi Materi -> Modul
      */
-    public function kategori()
+    public function modul()
     {
-        return $this->belongsTo(Kategori::class);
+        return $this->belongsTo(Modul::class);
     }
 
     /**

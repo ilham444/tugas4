@@ -18,9 +18,9 @@ class KomentarController extends Controller
         ]);
 
         Komentar::create([
-            'user_id'   => auth()->id(), // ✅ fix
+            'user_id' => auth()->id(), // ✅ fix
             'materi_id' => $validated['materi_id'],
-            'body'      => $validated['body'],
+            'body' => $validated['body'],
         ]);
 
         return back()->with('success', 'Komentar berhasil ditambahkan.');

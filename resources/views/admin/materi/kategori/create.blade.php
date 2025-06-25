@@ -55,7 +55,7 @@
                     class="fixed bottom-0 left-0 w-full bg-white dark:bg-gray-800/80 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 z-30">
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-3">
                         <div class="flex items-center justify-end gap-4">
-                            <a href="{{ route('admin.materi.index') }}"
+                            <a href="{{ route('admin.kategori.index') }}"
                                 class="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Batal</a>
                             <button type="submit"
                                 class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-5 rounded-lg shadow-md transition-colors">

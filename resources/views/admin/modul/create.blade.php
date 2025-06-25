@@ -3,11 +3,10 @@
         <div class="flex items-center justify-between">
             <div>
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    {{ __('Tambah Materi Baru') }}
+                    {{ __('Tambah Modul Baru') }}
                 </h2>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                    Isi detail materi untuk dipublikasikan ke platform.
-                </p>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Isi detail modul untuk dipublikasikan ke
+                    platform.</p>
             </div>
         </div>
     </x-slot>
@@ -16,73 +15,86 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <form action="{{ route('admin.modul.materi.store', $modul) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.modul.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-                    <!-- Kolom Kiri -->
                     <div class="lg:col-span-2 space-y-6">
-                        <!-- Input Judul -->
+                        {{-- Judul --}}
                         <div
                             class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
-                            <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Judul
-                                Materi</label>
-                            <input type="text" name="title" id="title" value="{{ old('title') }}"
-                                class="mt-1 block w-full text-lg font-semibold p-3 rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500"
-                                placeholder="Contoh: Pengenalan Laravel 11" required>
-                            @error('title') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
-                        </div>
-
-                        <!-- Input Deskripsi -->
-                        <div
-                            class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
-                            <label for="description"
-                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Deskripsi
-                                Lengkap</label>
-                            <textarea name="description" id="description" rows="10" required
-                                class="mt-1 block w-full rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500"
-                                placeholder="Jelaskan secara detail apa yang akan dipelajari dalam materi ini...">{{ old('description') }}</textarea>
-                            <p class="text-xs text-gray-500 mt-2">Gunakan editor ini untuk memformat teks, list, atau
-                                menyisipkan tautan.</p>
-                            @error('description') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
-                        </div>
-                    </div>
-
-                    <!-- Sidebar -->
-                    <div class="space-y-6">
-                        <!-- Pilih Kategori -->
-                        <div
-                            class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Pengaturan</h3>
-
-                            {{-- Urutan Materi --}}
-                            <div class="mt-4">
-                                <label for="urutan"
-                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300">Urutan Materi
-                                </label>
-                                <input type="number" name="urutan" id="urutan"
-                                    class="mt-1 block w-full rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                                    value="{{ old('urutan', $modul->materis->count() + 1) }}" required min="1">
-                                @error('urutan') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
+                            <div>
+                                <label for="title"
+                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300">Judul
+                                    Modul</label>
+                                <input type="text" name="title" id="title"
+                                    class="mt-1 block w-full text-lg font-semibold p-3 rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                    value="{{ old('title') }}" placeholder="Contoh: Pengenalan Laravel 11" required>
+                                @error('title') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
                             </div>
                         </div>
 
-                        <!-- Upload File -->
+                        {{-- description --}}
                         <div
                             class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">File Materi</h3>
+                            <div>
+                                <label for="description"
+                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Deskripsi
+                                    Lengkap</label>
+                                <textarea name="description" id="description" rows="10"
+                                    class="mt-1 block w-full rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                    placeholder="Jelaskan secara detail apa yang akan dipelajari dalam modul ini..."
+                                    required>{{ old('description') }}</textarea>
+                                <p class="text-xs text-gray-500 mt-2">Gunakan editor ini untuk memformat teks,
+                                    menambahkan list, atau menyisipkan tautan.</p>
+                                @error('description') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-1 space-y-6">
+                        <div
+                            class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Pengaturan</h3>
+                            {{-- kategori --}}
+                            <div>
+                                <label for="kategori_id"
+                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300">Kategori</label>
+                                <select name="kategori_id" id="kategori_id"
+                                    class="mt-1 block w-full p-3 rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                    required>
+                                    <option value="" disabled selected>-- Pilih Kategori --</option>
+                                    @foreach ($kategoris as $kategori)
+                                        <option value="{{ $kategori->id }}" {{ old('kategori_id') == $kategori->id ? 'selected' : '' }}>
+                                            {{ $kategori->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('kategori_id') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
+                            </div>
+                            {{-- estimated --}}
+                            <div class="mt-4">
+                                <label for="estimated"
+                                    class="block text-sm font-medium text-gray-700 dark:text-gray-300">Estimasi Waktu
+                                    (menit)</label>
+                                <input type="number" name="estimated" id="estimated"
+                                    class="mt-1 block w-full rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                    value="{{ old('estimated') }}" required min="1">
+                                @error('estimated') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
+                            </div>
+                        </div>
 
+                        {{-- UPLOAD GAMBAR --}}
+                        <div
+                            class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Thumbnail Modul</h3>
                             <div x-data="fileDrop()"
                                 class="relative flex flex-col items-center justify-center w-full p-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg text-center cursor-pointer hover:border-indigo-500 dark:hover:border-indigo-400 transition-colors"
-                                @dragover.prevent="dragging = true" @dragleave.prevent="dragging = false">
-
+                                @dragover.prevent="dragging = true" @dragleave.prevent="dragging = false"
+                                @drop.prevent="dragging = false; handleFileSelect($event)">
                                 <div class="absolute inset-0 bg-indigo-50 dark:bg-indigo-500/10" x-show="dragging">
                                 </div>
-
-                                <input type="file" name="file" id="file" required
+                                <input type="file" name="thumbnail" id="thumbnail"
                                     class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                     @change="handleFileSelect($event)">
-
                                 <div class="relative z-10" x-show="!fileName">
                                     <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor">
@@ -91,11 +103,10 @@
                                     </svg>
                                     <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
                                         <span class="font-semibold text-indigo-600 dark:text-indigo-400">Seret
-                                            file</span> atau klik untuk upload
+                                            file</span> atau klik untuk mengupload
                                     </p>
-                                    <p class="mt-1 text-xs text-gray-500">PDF, MP4, WEBM, OGG (Maks. 50MB)</p>
+                                    <p class="mt-1 text-xs text-gray-500">JPG, PNG, WEBP (Maks. 2MB)</p>
                                 </div>
-
                                 <div class="relative z-10" x-show="fileName">
                                     <div class="flex items-center gap-3">
                                         <svg class="h-10 w-10 text-green-500" xmlns="http://www.w3.org/2000/svg"
@@ -114,26 +125,25 @@
                                         class="mt-3 text-xs text-red-500 hover:underline">Hapus file</button>
                                 </div>
                             </div>
-                            @error('file') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
+                            @error('thumbnail') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
                         </div>
                     </div>
                 </div>
-
-                <!-- Tombol Sticky Bawah -->
                 <div
                     class="fixed bottom-0 left-0 w-full bg-white dark:bg-gray-800/80 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 z-30">
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-3">
                         <div class="flex items-center justify-end gap-4">
-                            <a href="{{ route('admin.modul.materi.index', $modul) }}"
+                            <a href="{{ route('admin.modul.index') }}"
                                 class="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Batal</a>
                             <button type="submit"
                                 class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-5 rounded-lg shadow-md transition-colors">
-                                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                    fill="currentColor">
                                     <path fill-rule="evenodd"
                                         d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11.25a.75.75 0 00-1.5 0v4.59L7.3 9.24a.75.75 0 00-1.1 1.02l3.25 3.5a.75.75 0 001.1 0l3.25-3.5a.75.75 0 10-1.1-1.02l-1.95 2.1V6.75z"
                                         clip-rule="evenodd" />
                                 </svg>
-                                Simpan Materi
+                                Simpan Modul
                             </button>
                         </div>
                     </div>
@@ -141,7 +151,6 @@
             </form>
         </div>
     </div>
-
     <script>
         function fileDrop() {
             return {
@@ -149,14 +158,21 @@
                 fileName: '',
                 fileSize: '',
                 handleFileSelect(event) {
-                    if (event.target.files.length > 0) {
-                        const file = event.target.files[0];
+                    let file;
+                    if (event.type === 'drop' && event.dataTransfer) {
+                        file = event.dataTransfer.files[0];
+                        document.getElementById('thumbnail').files = event.dataTransfer.files;
+                    } else if (event.target.files.length > 0) {
+                        file = event.target.files[0];
+                    }
+                    if (file) {
                         this.fileName = file.name;
                         this.fileSize = this.formatBytes(file.size);
                     }
                 },
                 removeFile() {
-                    document.getElementById('file').value = '';
+                    const fileInput = document.getElementById('thumbnail');
+                    fileInput.value = '';
                     this.fileName = '';
                     this.fileSize = '';
                 },

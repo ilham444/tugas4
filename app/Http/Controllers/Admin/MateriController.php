@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Kategori;
 use App\Models\Materi;
+use App\Models\Modul;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -14,33 +15,31 @@ class MateriController extends Controller
     /**
      * Tampilkan daftar semua materi
      */
-    public function index()
+    public function index(Modul $modul)
     {
-        $materi = Materi::with('kategori')->latest()->paginate(10);
-        return view('admin.materi.index', compact('materi'));
+        $materi = $modul->materis()->latest()->paginate(10);
+        return view('admin.materi.index', compact('materi', 'modul'));
     }
-
 
     /**
      * Tampilkan form untuk menambahkan materi baru
      */
-    public function create()
+    public function create(Modul $modul)
     {
-        $kategoris = Kategori::all();
-        return view('admin.materi.create', compact('kategoris'));
+        $moduls = Modul::all(); // <-- Ambil semua modul
+        return view('admin.materi.create', compact('moduls', 'modul'));
     }
->>>>>>> f9f90bd (membuat seeder dan perbaiki fitur komentar preview materi)
 
     /**
      * Simpan materi baru ke database
      */
-    public function store(Request $request)
+    public function store(Request $request, Modul $modul)
     {
         $request->validate([
-            'title'       => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'file'        => 'required|file|mimes:pdf,mp4,webm,ogg|max:51200',
-            'kategori_id' => 'required|exists:kategoris,id',
+            'file' => 'required|file|mimes:pdf,jpg,png,mp4,webm,ogg|max:51200',
+            'urutan' => 'required|integer'
         ]);
 
         // Simpan file
@@ -51,39 +50,36 @@ class MateriController extends Controller
 
         // Simpan ke database
         Materi::create([
-            'title'       => $request->title,
-            'slug'        => $slug,
+            'title' => $request->title,
+            'slug' => $slug,
             'description' => $request->description,
-            'file_path'   => $filePath,
-            'kategori_id' => $request->kategori_id,
-
->>>>>>> f9f90bd (membuat seeder dan perbaiki fitur komentar preview materi)
+            'file_path' => $filePath,
+            'modul_id' => $modul->id,
+            'urutan' => $request->urutan
         ]);
 
-        return redirect()->route('admin.materi.index')->with('success', 'Materi berhasil ditambahkan.');
+        return redirect()->route('admin.modul.materi.index', $modul)->with('success', 'Materi berhasil ditambahkan.');
     }
 
     /**
      * Tampilkan form untuk edit materi
      */
-    public function edit(Materi $materi)
+    public function edit(Modul $modul, Materi $materi)
     {
-
-        $kategoris = Kategori::all();
-        return view('admin.materi.edit', compact('materi', 'kategoris'));
->>>>>>> f9f90bd (membuat seeder dan perbaiki fitur komentar preview materi)
+        $kategoris = Kategori::all(); // <-- Ambil semua kategori
+        return view('admin.materi.edit', compact('materi', 'kategoris', 'modul')); // <-- Kirim ke view
     }
 
     /**
      * Update data materi yang sudah ada
      */
-    public function update(Request $request, Materi $materi)
+    public function update(Request $request, Modul $modul, Materi $materi)
     {
         $request->validate([
-            'title'       => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'file'        => 'nullable|file|mimes:pdf,mp4,webm,ogg|max:51200',
-            'kategori_id' => 'required|exists:kategoris,id',
+            'file' => 'nullable|file|mimes:pdf,jpg,png,mp4|max:10240',
+            'urutan' => 'required|integer'
         ]);
 
         $filePath = $materi->file_path;
@@ -104,27 +100,24 @@ class MateriController extends Controller
         }
 
         $materi->update([
-            'title'       => $request->title,
-            'slug'        => $slug,
+            'title' => $request->title,
+            'slug' => $slug,
             'description' => $request->description,
-            'file_path'   => $filePath,
-            'kategori_id' => $request->kategori_id,
+            'file_path' => $filePath,
+            'urutan' => $request->urutan
         ]);
 
-        return redirect()->route('admin.materi.index')->with('success', 'Materi berhasil diperbarui.');
+        return redirect()->route('admin.modul.materi.index', $modul)->with('success', 'Materi berhasil diperbarui.');
     }
 
     /**
      * Hapus materi dari database dan storage
      */
-    public function destroy(Materi $materi)
+    public function destroy(Modul $modul, Materi $materi)
     {
-
-
->>>>>>> f9f90bd (membuat seeder dan perbaiki fitur komentar preview materi)
         $materi->delete();
 
-        return redirect()->route('admin.materi.index')->with('success', 'Materi berhasil dihapus.');
+        return redirect()->route('admin.modul.materi.index', $modul)->with('success', 'Materi berhasil dihapus.');
     }
 
     /**
@@ -142,5 +135,4 @@ class MateriController extends Controller
 
         return $slug;
     }
->>>>>>> f9f90bd (membuat seeder dan perbaiki fitur komentar preview materi)
 }
