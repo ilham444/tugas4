@@ -18,8 +18,8 @@
                     </svg>
                     Hapus Materi
                 </button>
-                <div x-show="open" x-cloak x-transition
-                    class="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50">
+                <div x-show="open" x-cloak x-transition :class="{'flex': open, 'hidden': !open}"
+                    class="fixed inset-0 z-40 hidden items-center justify-center bg-black bg-opacity-50">
                     <div @click.away="open = false"
                         class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md w-full">
                         <h3 class="text-xl font-bold text-gray-900 dark:text-white">Konfirmasi Penghapusan</h3>
