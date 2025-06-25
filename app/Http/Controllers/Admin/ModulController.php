@@ -34,23 +34,27 @@ class ModulController extends Controller
      */
     public function store(Request $request)
     {
+        // [UPDATED] Validasi disesuaikan dengan form baru.
+        // 'thumbnail' sekarang wajib dan menerima berbagai jenis file.
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:255|unique:moduls,title',
             'kategori_id' => 'required|exists:kategoris,id',
             'description' => 'required|string',
-            'estimated' => 'required|integer',
-            'thumbnail' => 'nullable|image|max:2048',
+            'estimated' => 'required|integer|min:1',
+            'thumbnail' => 'required|file|mimes:png,jpg,jpeg,webp,pdf,doc,docx,mp4,webm|max:10240', // Maks 10MB
         ]);
 
-        // Generate slug with prefix 'modul', title, and current timestamp
+        // Generate slug unik saat pembuatan. Menambahkan timestamp untuk menghindari duplikasi.
         $validated['slug'] = 'modul-' . Str::slug($request->title) . '-' . time();
 
+        // [UPDATED] Nama folder diubah menjadi 'modul-content' agar lebih deskriptif.
         if ($request->hasFile('thumbnail')) {
-            $validated['thumbnail'] = $request->file('thumbnail')->store('modul-thumbnails', 'public');
+            $validated['thumbnail'] = $request->file('thumbnail')->store('modul-content', 'public');
         }
 
         Modul::create($validated);
-        return redirect()->route('admin.modul.index')->with('success', 'Modul berhasil ditambahkan.');
+        
+        return redirect()->route('admin.modul.index')->with('success', 'Modul baru berhasil ditambahkan.');
     }
 
     /**
@@ -66,7 +70,7 @@ class ModulController extends Controller
      */
     public function edit(Modul $modul)
     {
-        $kategoris = Kategori::all(); // <-- Ambil semua kategori
+        $kategoris = Kategori::all();
         return view('admin.modul.edit', compact('modul', 'kategoris'));
     }
 
@@ -75,26 +79,31 @@ class ModulController extends Controller
      */
     public function update(Request $request, Modul $modul)
     {
+        // [UPDATED] Validasi disesuaikan. 'thumbnail' sekarang nullable agar tidak wajib di-upload ulang.
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:255|unique:moduls,title,' . $modul->id,
             'kategori_id' => 'required|exists:kategoris,id',
             'description' => 'required|string',
-            'estimated' => 'required|integer',
-            'thumbnail' => 'nullable|image|max:2048',
+            'estimated' => 'required|integer|min:1',
+            'thumbnail' => 'nullable|file|mimes:png,jpg,jpeg,webp,pdf,doc,docx,mp4,webm|max:10240', // Maks 10MB
         ]);
 
-        // Regenerate slug with prefix 'modul', title, and current timestamp
-        $validated['slug'] = 'modul-' . Str::slug($request->title) . '-' . time();
+        // [IMPROVED] Slug hanya di-update jika judul berubah. Ini menjaga URL tetap stabil.
+        if ($request->title !== $modul->title) {
+            $validated['slug'] = 'modul-' . Str::slug($request->title) . '-' . time();
+        }
 
         if ($request->hasFile('thumbnail')) {
-            // Delete old thumbnail if exists
+            // Hapus file lama jika ada
             if ($modul->thumbnail && Storage::disk('public')->exists($modul->thumbnail)) {
                 Storage::disk('public')->delete($modul->thumbnail);
             }
-            $validated['thumbnail'] = $request->file('thumbnail')->store('modul-thumbnails', 'public');
+            // Simpan file baru dengan path yang konsisten
+            $validated['thumbnail'] = $request->file('thumbnail')->store('modul-content', 'public');
         }
 
         $modul->update($validated);
+        
         return redirect()->route('admin.modul.index')->with('success', 'Modul berhasil diperbarui.');
     }
 
@@ -103,11 +112,13 @@ class ModulController extends Controller
      */
     public function destroy(Modul $modul)
     {
-        // Delete thumbnail if exists
+        // Hapus file konten yang terhubung dengan modul
         if ($modul->thumbnail && Storage::disk('public')->exists($modul->thumbnail)) {
             Storage::disk('public')->delete($modul->thumbnail);
         }
+
         $modul->delete();
+        
         return redirect()->route('admin.modul.index')->with('success', 'Modul berhasil dihapus.');
     }
 }
