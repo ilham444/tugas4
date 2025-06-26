@@ -9,16 +9,36 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+
 class ModulController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $moduls = Modul::latest()->paginate(10);
-        return view('admin.modul.index', compact('moduls'));
+   public function index(Request $request)
+{
+    // Awal query modul
+    $query = Modul::query();
+
+    // Filter berdasarkan pencarian judul jika ada
+    if ($request->filled('search')) {
+        $query->where('title', 'like', '%' . $request->search . '%');
     }
+
+    // Filter berdasarkan kategori jika dipilih
+    if ($request->filled('kategori')) {
+        $query->where('kategori_id', $request->kategori);
+    }
+
+    // Ambil data modul terurut dari yang terbaru dan paginasi
+    $moduls = $query->latest()->paginate(10)->appends($request->query());
+
+    // Ambil semua kategori untuk keperluan dropdown filter
+    $kategoris = Kategori::all();
+
+    // Kirim data ke view
+    return view('admin.modul.index', compact('moduls', 'kategoris'));
+}
 
     /**
      * Show the form for creating a new resource.
