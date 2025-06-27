@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 {{-- [UPGRADE] Tambahkan x-data untuk manajemen tema global dengan Alpine.js --}}
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
-      x-data="{
+    x-data="{
           theme: localStorage.getItem('theme') || 'system',
           init() {
               this.setTheme(this.theme);
@@ -21,13 +21,13 @@
               }
           }
       }"
-      x-init="init()">
+    x-init="init()">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
     {{-- [UPGRADE] Meta description yang bisa di-override per halaman untuk SEO --}}
     <meta name="description" content="{{ $metaDescription ?? 'EduPlatform adalah platform pembelajaran online interaktif untuk masa depan.' }}">
 
@@ -46,8 +46,13 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-        body { font-family: 'Poppins', sans-serif; }
-        [x-cloak] { display: none !important; }
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        [x-cloak] {
+            display: none !important;
+        }
     </style>
 </head>
 
@@ -71,9 +76,9 @@
                     {{-- [UPGRADE UTAMA] Menggunakan slot 'actions' untuk fleksibilitas --}}
                     {{-- Tombol-tombol aksi sekarang didefinisikan di setiap halaman, bukan di sini --}}
                     @if (isset($actions))
-                        <div class="flex items-center gap-3 flex-shrink-0">
-                            {{ $actions }}
-                        </div>
+                    <div class="flex items-center gap-3 flex-shrink-0">
+                        {{ $actions }}
+                    </div>
                     @endif
                 </div>
             </div>
@@ -91,7 +96,7 @@
         </footer>
 
     </div>
-    
+
     @stack('scripts')
 </body>
 
