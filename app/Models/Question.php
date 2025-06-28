@@ -9,6 +9,7 @@ class Question extends Model
     use HasFactory;
 
     protected $fillable = [
+        'materi_id', // 
         'question_text',
         'option_a',
         'option_b',

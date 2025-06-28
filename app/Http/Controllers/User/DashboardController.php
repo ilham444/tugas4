@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
+use App\Models\Latihan;
 
 class DashboardController extends Controller
 {
@@ -20,7 +21,7 @@ class DashboardController extends Controller
             });
         }
 
-        // Ambil kategori beserta materinya (dengan filter kalau ada pencarian)
+        // Ambil kategori beserta materinya
         $kategoris = $query->with([
             'moduls' => function ($q) use ($request) {
                 if ($request->has('search') && $request->search != '') {
@@ -29,6 +30,13 @@ class DashboardController extends Controller
             }
         ])->latest()->get();
 
-        return view('user.dashboard', compact('kategoris'));
+        // Ambil data latihan terbaru yang memiliki soal
+        $latihans = Latihan::withCount('soals')
+            ->whereHas('soals')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('user.dashboard', compact('kategoris', 'latihans'));
     }
 }

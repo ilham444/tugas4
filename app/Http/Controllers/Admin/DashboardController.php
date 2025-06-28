@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Modul;
 use App\Models\Question;
 use App\Models\User;
-use App\Models\QuizResult; // Tambahkan untuk menghitung jumlah quiz yang dikerjakan
-use Illuminate\Http\Request;
+use App\Models\QuizResult;
+use App\Models\Latihan;
 
 class DashboardController extends Controller
 {
@@ -60,6 +60,7 @@ class DashboardController extends Controller
         // =======================
         $questionCount = Question::count();
         $quizSubmissionsCount = QuizResult::count();
+        $latihanCount = Latihan::count();
 
         // =======================
         // 4. RETURN KE VIEW
@@ -69,6 +70,7 @@ class DashboardController extends Controller
             'recentUsers' => $recentUsers,
             'questionCount' => $questionCount,
             'quizSubmissionsCount' => $quizSubmissionsCount,
+            'latihanCount' => $latihanCount,
         ]);
     }
 }

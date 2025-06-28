@@ -28,5 +28,8 @@ class Modul extends Model
     {
         return 'slug';
     }
+    public function latihans() {
+    return $this->hasMany(Latihan::class);
+}
     
 }
