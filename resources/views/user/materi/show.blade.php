@@ -1,11 +1,11 @@
 <x-app-layout>
-    {{-- Slot untuk judul halaman dinamis di tab browser --}}
+    {{-- Slot for the dynamic page title in the browser tab --}}
     <x-slot name="title">{{ $materi->title }} - EduPlatform</x-slot>
 
-    {{-- Header Halaman yang Lebih Informatif --}}
+    {{-- More Informative Page Header --}}
     <div class="bg-white dark:bg-gray-800/50 shadow-sm">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            {{-- Breadcrumbs untuk Navigasi --}}
+            {{-- Breadcrumbs for Navigation --}}
             <nav class="flex mb-2" aria-label="Breadcrumb">
                 <ol class="inline-flex items-center space-x-1 md:space-x-3">
                     <li>
@@ -25,7 +25,7 @@
                     </li>
                 </ol>
             </nav>
-            {{-- Judul Utama --}}
+            {{-- Main Title --}}
             <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
                 {{ $materi->title }}
             </h1>
@@ -37,11 +37,11 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 xl:gap-12">
 
                 <!-- ============================================= -->
-                <!-- Kolom Konten Utama (Kiri, 2/3) -->
+                <!-- Main Content Column (Left, 2/3) -->
                 <!-- ============================================= -->
                 <div class="lg:col-span-2 space-y-8">
 
-                    <!-- Player Konten (Video/PDF) -->
+                    <!-- Content Player (Video/PDF) -->
                     <div
                         class="bg-white dark:bg-gray-900 shadow-xl rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
                         @php $fileExtension = pathinfo($materi->file_path, PATHINFO_EXTENSION); @endphp
@@ -49,7 +49,7 @@
                             <div class="aspect-w-16 aspect-h-9 bg-black">
                                 <video controls controlsList="nodownload" class="w-full h-full">
                                     <source src="{{ Storage::url($materi->file_path) }}" type="video/{{ $fileExtension }}">
-                                    Browser Anda tidak mendukung tag video.
+                                    Your browser does not support the video tag.
                                 </video>
                             </div>
                         @elseif(strtolower($fileExtension) == 'pdf')
@@ -59,10 +59,10 @@
                             </div>
                         @elseif(in_array(strtolower($fileExtension), ['png', 'jpg', 'jpeg']))
                             <div class="aspect-w-16 aspect-h-9 bg-black">
-                                <img src="{{ Storage::url($modul->thumbnail) }}" alt="{{ $modul->title }}" />
+                                <img src="{{ Storage::url($materi->file_path) }}" alt="{{ $materi->title }}" class="w-full h-full object-contain" />
                             </div>
                         @else
-                            {{-- Tampilan untuk file yang tidak bisa di-preview --}}
+                            {{-- View for non-previewable files --}}
                             <div
                                 class="p-10 text-center bg-gray-50 dark:bg-gray-800 flex flex-col items-center justify-center min-h-[300px]">
                                 <div class="bg-indigo-100 dark:bg-indigo-500/10 p-4 rounded-full">
@@ -72,11 +72,9 @@
                                             d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                     </svg>
                                 </div>
-                                <h3 class="mt-4 text-lg font-semibold text-gray-900 dark:text-gray-200">Pratinjau Tidak
-                                    Tersedia</h3>
-                                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">File ini tidak dapat ditampilkan
-                                    langsung di browser.</p>
-                                <a href="{{ Storage::url($materi->file_path) }}" target="_blank"
+                                <h3 class="mt-4 text-lg font-semibold text-gray-900 dark:text-gray-200">Preview Not Available</h3>
+                                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">This file cannot be displayed directly in the browser.</p>
+                                <a href="{{ Storage::url($materi->file_path) }}" download
                                     class="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-colors">
                                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                         fill="currentColor">
@@ -91,29 +89,29 @@
                         @endif
                     </div>
 
-                    <!-- Area Deskripsi & Diskusi (dengan Tabs) -->
-                    <div x-data="{ tab: 'deskripsi' }"
+                    <!-- Description & Discussion Area (with Tabs) -->
+                    <div x-data="{ tab: 'description' }"
                         class="bg-white dark:bg-gray-800 shadow-xl rounded-2xl border border-gray-200 dark:border-gray-700">
                         <div class="border-b border-gray-200 dark:border-gray-700">
                             <nav class="-mb-px flex space-x-6 px-6" aria-label="Tabs">
-                                <button @click="tab = 'deskripsi'"
-                                    :class="tab === 'deskripsi' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
-                                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors">Deskripsi</button>
+                                <button @click="tab = 'description'"
+                                    :class="tab === 'description' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:hover:text-gray-300'"
+                                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors focus:outline-none">Description</button>
                                 <button @click="tab = 'diskusi'"
-                                    :class="tab === 'diskusi' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
-                                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors">Diskusi
+                                    :class="tab === 'diskusi' ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:hover:text-gray-300'"
+                                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors focus:outline-none">Discussion
                                     ({{ $materi->komentars->count() }})</button>
                             </nav>
                         </div>
                         <div class="p-6 md:p-8">
-                            {{-- Konten Deskripsi --}}
-                            <div x-show="tab === 'deskripsi'" class="prose prose-indigo dark:prose-invert max-w-none">
+                            {{-- Description Content --}}
+                            <div x-show="tab === 'description'" class="prose prose-indigo dark:prose-invert max-w-none">
                                 {!! nl2br(e($materi->description)) !!}
                             </div>
 
-                            {{-- Konten Diskusi --}}
+                            {{-- Discussion Content --}}
                             <div x-show="tab === 'diskusi'" class="space-y-8">
-                                <!-- Form Tambah Komentar -->
+                                <!-- Add Comment Form -->
                                 <form action="{{ route('komentar.store') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="materi_id" value="{{ $materi->id }}">
@@ -126,19 +124,19 @@
                                                 class="border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm overflow-hidden focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
                                                 <textarea name="body" rows="3"
                                                     class="block w-full py-3 px-4 border-0 resize-none focus:ring-0 text-sm dark:bg-gray-800 dark:text-gray-200"
-                                                    placeholder="Ada pertanyaan atau ingin berbagi sesuatu?"
+                                                    placeholder="Have a question or want to share something?"
                                                     required></textarea>
                                                 <div class="py-2 px-3 bg-gray-50 dark:bg-gray-700/50 flex justify-end">
                                                     <button type="submit"
                                                         class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-md shadow-sm transition-all text-sm">
-                                                        Kirim Komentar
+                                                        Post Comment
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </form>
-                                <!-- Daftar Komentar -->
+                                <!-- Comment List -->
                                 <div class="space-y-6">
                                     @forelse ($materi->komentars()->latest()->get() as $komentar)
                                         <div class="flex space-x-4 border-t border-gray-200 dark:border-gray-700 pt-6">
@@ -151,7 +149,7 @@
                                                         {{ $komentar->user->name }}
                                                         @if($komentar->user_id === Auth::id())
                                                             <span
-                                                                class="ml-2 text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300 px-2 py-0.5 rounded-full">Anda</span>
+                                                                class="ml-2 text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300 px-2 py-0.5 rounded-full">You</span>
                                                         @endif
                                                     </p>
                                                     <p class="text-xs text-gray-500 dark:text-gray-400">
@@ -171,9 +169,8 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                                             </svg>
-                                            <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-200">Belum Ada
-                                                Diskusi</h3>
-                                            <p class="mt-1 text-sm text-gray-500">Jadilah yang pertama memulai percakapan!
+                                            <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-200">No Discussion Yet</h3>
+                                            <p class="mt-1 text-sm text-gray-500">Be the first to start the conversation!
                                             </p>
                                         </div>
                                     @endforelse
@@ -184,10 +181,10 @@
                 </div>
 
                 <!-- ============================================= -->
-                <!-- Kolom Informasi (Kanan, 1/3) - Sidebar -->
+                <!-- Information Column (Right, 1/3) - Sidebar -->
                 <!-- ============================================= -->
                 <div class="lg:col-span-1 space-y-8">
-                    <!-- Panel Status & Informasi Materi -->
+                    <!-- Material Status & Information Panel -->
                     <div
                         class="bg-white dark:bg-gray-800 shadow-xl rounded-2xl border border-gray-200 dark:border-gray-700">
                         <div class="p-6 space-y-6">
@@ -206,7 +203,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
-                                    <span x-text="completed ? 'Sudah Selesai!' : 'Tandai Selesai'"></span>
+                                    <span x-text="completed ? 'Completed!' : 'Mark as Complete'"></span>
                                 </button>
                             </div>
                             <ul class="text-sm space-y-4">
@@ -217,7 +214,7 @@
                                             stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-                                        </svg> Kategori</span>
+                                        </svg> Category</span>
                                     <span
                                         class="px-2 py-1 bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300 rounded text-xs font-medium">{{ $modul->kategori->name }}</span>
                                 </li>
@@ -228,7 +225,7 @@
                                             stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg> Diupload</span>
+                                        </svg> Published On</span>
                                     <span
                                         class="text-gray-800 dark:text-gray-200">{{ $materi->created_at->format('d F Y') }}</span>
                                 </li>
@@ -239,7 +236,7 @@
                                             stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                                        </svg> Tipe File</span>
+                                        </svg> File Type</span>
                                     <span
                                         class="text-gray-800 dark:text-gray-200">{{ strtoupper($fileExtension) }}</span>
                                 </li>
@@ -247,7 +244,7 @@
                         </div>
                     </div>
 
-                    {{-- Panel Materi Selanjutnya --}}
+                    {{-- Next Material Panel --}}
                     @isset($nextMateri)
                         <div
                             class="bg-white dark:bg-gray-800 shadow-xl rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden flex flex-col">
@@ -255,7 +252,7 @@
                                 <div>
                                     <h3
                                         class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">
-                                        Materi Selanjutnya
+                                        Next Material
                                     </h3>
                                     <p class="font-bold text-lg text-gray-800 dark:text-gray-100 mb-2">
                                         {{ $nextMateri->title }}
@@ -263,7 +260,7 @@
                                 </div>
                                 <a href="{{ route('user.modul.materi.show', [$modul, $nextMateri->slug]) }}"
                                     class="mt-4 flex items-center justify-center gap-2 w-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold py-2.5 px-4 rounded-lg transition-colors">
-                                    Lanjutkan Belajar
+                                    Continue Learning
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M17 8l4 4m0 0l-4 4m4-4H3"></path>

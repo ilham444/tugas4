@@ -3,14 +3,14 @@
         <div class="flex items-center justify-between">
             <div>
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    {{ __('Tambah Modul Baru') }}
+                    {{ __('Add New Module') }}
                 </h2>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Isi detail modul untuk dipublikasikan ke platform.</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Fill in the module details to publish it to the platform.</p>
             </div>
         </div>
     </x-slot>
 
-    {{-- Menggunakan Alpine.js v3 sangat direkomendasikan, namun kode ini tetap kompatibel --}}
+    {{-- Using Alpine.js v3 is highly recommended, but this code remains compatible --}}
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 
     <div class="py-12">
@@ -19,40 +19,40 @@
                 @csrf
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     
-                    {{-- Kolom Konten Utama --}}
+                    {{-- Main Content Column --}}
                     <div class="lg:col-span-2 space-y-6">
-                        {{-- Kartu Judul Modul --}}
+                        {{-- Module Title Card --}}
                         <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
-                            <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Judul Modul</label>
+                            <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Module Title</label>
                             <input type="text" name="title" id="title"
                                 class="mt-1 block w-full text-lg font-semibold p-3 rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                                value="{{ old('title') }}" placeholder="Contoh: Pengenalan Laravel 11" required>
+                                value="{{ old('title') }}" placeholder="Example: Introduction to Laravel 11" required>
                             @error('title') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
                         </div>
 
-                        {{-- Kartu Deskripsi Modul --}}
+                        {{-- Module Description Card --}}
                         <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
-                            <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Deskripsi Lengkap</label>
-                            {{-- CATATAN: Untuk pengalaman terbaik, integrasikan editor Rich Text seperti TinyMCE atau Trix pada textarea ini. --}}
+                            <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Full Description</label>
+                            {{-- NOTE: For the best experience, integrate a Rich Text editor like TinyMCE or Trix with this textarea. --}}
                             <textarea name="description" id="description" rows="10"
                                 class="mt-1 block w-full rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                                placeholder="Jelaskan secara detail apa yang akan dipelajari dalam modul ini..."
+                                placeholder="Explain in detail what will be learned in this module..."
                                 required>{{ old('description') }}</textarea>
                             @error('description') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
                         </div>
                     </div>
 
-                    {{-- Kolom Sidebar Pengaturan --}}
+                    {{-- Sidebar Settings Column --}}
                     <div class="lg:col-span-1 space-y-6">
-                        {{-- Kartu Pengaturan Dasar --}}
+                        {{-- Basic Settings Card --}}
                         <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Pengaturan</h3>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Settings</h3>
                             
-                            {{-- Input Kategori --}}
+                            {{-- Category Input --}}
                             <div>
-                                <label for="kategori_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Kategori</label>
+                                <label for="kategori_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
                                 <select name="kategori_id" id="kategori_id" class="mt-1 block w-full p-3 rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
-                                    <option value="" disabled selected>-- Pilih Kategori --</option>
+                                    <option value="" disabled selected>-- Select a Category --</option>
                                     @foreach ($kategoris as $kategori)
                                         <option value="{{ $kategori->id }}" @selected(old('kategori_id') == $kategori->id)>
                                             {{ $kategori->name }}
@@ -62,36 +62,36 @@
                                 @error('kategori_id') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
                             </div>
                             
-                            {{-- Input Estimasi Waktu --}}
+                            {{-- Estimated Time Input --}}
                             <div class="mt-4">
-                                <label for="estimated" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Estimasi Waktu (menit)</label>
-                                <input type="number" name="estimated" id="estimated" class="mt-1 block w-full rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" value="{{ old('estimated') }}" required min="1" placeholder="Contoh: 45">
+                                <label for="estimated" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Estimated Time (minutes)</label>
+                                <input type="number" name="estimated" id="estimated" class="mt-1 block w-full rounded-lg border-gray-300 dark:bg-gray-900 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" value="{{ old('estimated') }}" required min="1" placeholder="Example: 45">
                                 @error('estimated') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
                             </div>
                         </div>
 
-                        {{-- [REFACTORED] Kartu Upload Konten Utama (Gambar, PDF, Word, Video) --}}
+                        {{-- [REFACTORED] Main Content Upload Card (Image, PDF, Word, Video) --}}
                         <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Konten Utama Modul</h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Upload file utama untuk modul ini (Gambar, PDF, Dokumen, atau Video).</p>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Main Module Content</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Upload the main file for this module (Image, PDF, Document, or Video).</p>
                             <div x-data="fileUploader('thumbnail')" class="relative flex flex-col items-center justify-center w-full p-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg text-center cursor-pointer hover:border-indigo-500 dark:hover:border-indigo-400 transition-colors"
                                 @dragover.prevent="dragging = true" @dragleave.prevent="dragging = false" @drop.prevent="dragging = false; handleFileSelect($event)">
                                 <div class="absolute inset-0 bg-indigo-50 dark:bg-indigo-500/10" x-show="dragging"></div>
                                 <input type="file" name="thumbnail" id="thumbnail" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" @change="handleFileSelect($event)" accept="image/*,video/mp4,video/webm,.pdf,.doc,.docx" required>
                                 
-                                {{-- Tampilan Default --}}
+                                {{-- Default View --}}
                                 <div class="relative z-10" x-show="!fileName">
                                     <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l-3 3m3-3l3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" /></svg>
-                                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-300"><span class="font-semibold text-indigo-600 dark:text-indigo-400">Seret file</span> atau klik untuk upload</p>
-                                    <p class="mt-1 text-xs text-gray-500">Gambar, PDF, DOCX, Video (Maks. 10MB)</p>
+                                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-300"><span class="font-semibold text-indigo-600 dark:text-indigo-400">Drag a file</span> or click to upload</p>
+                                    <p class="mt-1 text-xs text-gray-500">Image, PDF, DOCX, Video (Max. 10MB)</p>
                                 </div>
 
-                                {{-- Tampilan Setelah File Dipilih --}}
+                                {{-- View After File is Selected --}}
                                 <div class="relative z-10" x-show="fileName" x-cloak>
                                     <div class="flex items-center gap-3"><svg class="h-10 w-10 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" /></svg>
                                         <div><p class="text-sm font-medium text-gray-800 dark:text-gray-200" x-text="fileName"></p><p class="text-xs text-gray-500" x-text="fileSize"></p></div>
                                     </div>
-                                    <button type="button" @click="removeFile()" class="mt-3 text-xs text-red-500 hover:underline">Ganti file</button>
+                                    <button type="button" @click="removeFile()" class="mt-3 text-xs text-red-500 hover:underline">Change file</button>
                                 </div>
                             </div>
                             @error('thumbnail') <p class="text-red-500 text-xs mt-2">{{ $message }}</p> @enderror
@@ -99,14 +99,14 @@
                     </div>
                 </div>
 
-                {{-- Bar Aksi di Bagian Bawah --}}
+                {{-- Bottom Action Bar --}}
                 <div class="fixed bottom-0 left-0 w-full bg-white dark:bg-gray-800/80 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 z-30">
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-3">
                         <div class="flex items-center justify-end gap-4">
-                            <a href="{{ route('admin.modul.index') }}" class="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">Batal</a>
+                            <a href="{{ route('admin.modul.index') }}" class="text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">Cancel</a>
                             <button type="submit" class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-5 rounded-lg shadow-md transition-colors">
                                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l-3 3m3-3l3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" /></svg>
-                                Simpan & Publikasikan
+                                Save & Publish
                             </button>
                         </div>
                     </div>
@@ -116,7 +116,7 @@
     </div>
     
     <script>
-        // Fungsi Alpine.js yang dapat digunakan kembali untuk menangani upload file.
+        // Reusable Alpine.js function to handle file uploads.
         function fileUploader(inputId) {
             return {
                 inputId: inputId,
@@ -153,12 +153,12 @@
             }
         }
     </script>
-    {{-- CATATAN PENTING UNTUK BACKEND:
-        Di dalam ModulController@store, Anda hanya perlu menangani satu file input `thumbnail`.
+    {{-- IMPORTANT NOTE FOR BACKEND:
+        Inside ModulController@store, you only need to handle the single `thumbnail` file input.
 
-        1. Perbarui validasi Anda untuk menerima semua jenis file yang diizinkan:
+        1. Update your validation to accept all allowed file types:
            'thumbnail' => 'required|file|mimes:png,jpg,jpeg,webp,pdf,doc,docx,mp4,webm|max:10240', // max 10MB
 
-        2. Lanjutkan proses penyimpanan file seperti biasa. Tidak perlu menangani input `attachment` lagi.
+        2. Continue the file saving process as usual. There's no need to handle an `attachment` input anymore.
     --}}
 </x-app-layout>
