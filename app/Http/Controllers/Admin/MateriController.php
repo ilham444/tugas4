@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Kategori;
 use App\Models\Materi;
 use App\Models\Modul;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -42,8 +43,15 @@ class MateriController extends Controller
             'urutan' => 'required|integer'
         ]);
 
-        // Simpan file
-        $filePath = $request->file('file')->store('materi_files', 'public');
+        // Simpan file ke Cloudinary jika config tersedia, jika tidak ke storage lokal
+        if (config('cloudinary.cloud_url')) {
+            $uploadedFile = $request->file('file');
+            $cloudinary = Cloudinary::uploadApi()->upload($uploadedFile->getRealPath());
+            $filePath = $cloudinary['secure_url'];
+        } else {
+            $filePath = $request->file('file')->store('materi_files', 'public');
+            $filePath = asset('storage/' . $filePath);
+        }
 
         // Buat slug unik
         $slug = $this->generateUniqueSlug($request->title);
@@ -84,13 +92,20 @@ class MateriController extends Controller
 
         $filePath = $materi->file_path;
 
-        // Ganti file jika ada file baru diupload
-        if ($request->hasFile('file')) {
-            if (Storage::disk('public')->exists($materi->file_path)) {
-                Storage::disk('public')->delete($materi->file_path);
-            }
 
-            $filePath = $request->file('file')->store('materi_files', 'public');
+        if (config('cloudinary.cloud_url')) {
+            $uploadedFile = $request->file('file');
+            $cloudinary = Cloudinary::uploadApi()->upload($uploadedFile->getRealPath());
+            $filePath = $cloudinary['secure_url'];
+        } else {
+            // Ganti file jika ada file baru diupload
+            if ($request->hasFile('file')) {
+                if (Storage::disk('public')->exists($materi->file_path)) {
+                    Storage::disk('public')->delete($materi->file_path);
+                }
+                $filePath = $request->file('file')->store('materi_files', 'public');
+                $filePath = asset('storage/' . $filePath);
+            }
         }
 
         // Perbarui slug hanya jika judul berubah

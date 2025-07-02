@@ -125,11 +125,10 @@
                                         </svg>
                                     </div>
                                     <div>
-                                        <a href="{{ Storage::url($modul->thumbnail) }}" target="_blank"
-                                            class="text-sm font-semibold text-gray-800 dark:text-gray-200 hover:underline">{{ Str::limit(basename($modul->thumbnail), 25) }}
-                                            <p class="text-xs text-gray-500 dark:text-gray-400">Current file. Click
-                                                to
-                                                view.</p>
+                                        <a href="{{ $modul->thumbnail }}" target="_blank"
+                                            class="text-sm font-semibold text-gray-800 dark:text-gray-200 hover:underline">
+                                            {{ Str::limit(basename($modul->thumbnail), 25) }}
+                                            <p class="text-xs text-gray-500 dark:text-gray-400">Current file. Click to view.</p>
                                         </a>
                                     </div>
                                 </div>

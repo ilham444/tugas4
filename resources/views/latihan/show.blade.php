@@ -4,13 +4,13 @@
     <div class="bg-gray-100 dark:bg-gray-900 min-h-screen font-sans">
         <div class="container mx-auto px-4 py-12">
             <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 p-8 md:p-10 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700">
-                
+
                 {{-- Practice Title --}}
                 <div class="text-center">
                     <h1 class="text-4xl font-extrabold text-indigo-700 dark:text-indigo-400 mb-2">{{ $latihan->judul }}</h1>
                     <p class="text-gray-600 dark:text-gray-300 text-lg mb-8">{{ $latihan->deskripsi }}</p>
                 </div>
-                
+
                 <hr class="dark:border-gray-700 mb-10">
 
                 {{-- Answer Form --}}
@@ -34,12 +34,12 @@
                                     <div class="my-5 rounded-lg overflow-hidden">
                                         @if($soal->tipe_media == 'video')
                                             <video controls controlslist="nodownload" class="w-full rounded-lg shadow-md">
-                                                <source src="{{ asset('storage/' . $soal->url_media) }}" type="video/mp4">
+                                                <source src="{{ $soal->url_media }}" type="video/mp4">
                                                 Your browser does not support the video tag.
                                             </video>
                                         @elseif($soal->tipe_media == 'audio')
                                             <audio controls class="w-full mt-2">
-                                                <source src="{{ asset('storage/' . $soal->url_media) }}" type="audio/mpeg">
+                                                <source src="{{ $soal->url_media }}" type="audio/mpeg">
                                                 Your browser does not support the audio tag.
                                             </audio>
                                         @endif

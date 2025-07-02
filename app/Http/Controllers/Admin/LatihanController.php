@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Latihan;
 use App\Models\Modul;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str; // Import Str untuk pengecekan string
@@ -26,7 +27,7 @@ class LatihanController extends Controller
     public function create()
     {
         $moduls = Modul::all();
-        
+
         return view('admin.latihan.create', compact('moduls'));
     }
 
@@ -60,11 +61,17 @@ class LatihanController extends Controller
                 $urlMediaPath = null;
                 $tipeMedia = 'none';
 
-                // Cek dan proses file media jika ada
-                if ($request->hasFile("soal.{$index}.media")) {
+                if (config('cloudinary.cloud_url')) {
+                    $file = $request->file("soal.{$index}.media");
+                    $cloudinary = Cloudinary::uploadApi()->upload($file->getRealPath());
+                    $urlMediaPath = $cloudinary['secure_url'];
+                } else {
                     $file = $request->file("soal.{$index}.media");
                     $urlMediaPath = $file->store('media_latihan', 'public');
-                    
+                }
+
+                // Cek dan proses file media jika ada
+                if ($request->hasFile("soal.{$index}.media")) {
                     // PERBAIKAN: Pengecekan tipe media yang lebih andal
                     $mimeType = $file->getMimeType();
                     if (Str::startsWith($mimeType, 'video/')) {
@@ -103,7 +110,7 @@ class LatihanController extends Controller
 
         // Load relasi soal dan pilihan jawabannya agar bisa di-passing ke form
         $latihan->load('soals.pilihanJawabans');
-        
+
         // Anda perlu membuat view 'admin.latihan.edit'
         return view('admin.latihan.edit', compact('latihan', 'moduls'));
     }
@@ -136,7 +143,7 @@ class LatihanController extends Controller
 
             // 2. Hapus semua soal lama agar mudah.
             // (Ini cara paling sederhana untuk menangani update. Alternatifnya lebih kompleks)
-            $latihan->soals()->delete(); 
+            $latihan->soals()->delete();
 
             // 3. Buat ulang semua soal dari data form (logika sama seperti store)
             foreach ($request->soal as $index => $soalData) {
@@ -146,7 +153,7 @@ class LatihanController extends Controller
                 if ($request->hasFile("soal.{$index}.media")) {
                     $file = $request->file("soal.{$index}.media");
                     $urlMediaPath = $file->store('media_latihan', 'public');
-                    
+
                     $mimeType = $file->getMimeType();
                     if (Str::startsWith($mimeType, 'video/')) {
                         $tipeMedia = 'video';
@@ -154,7 +161,7 @@ class LatihanController extends Controller
                         $tipeMedia = 'audio';
                     }
                 }
-                
+
                 // Jika user tidak upload file baru, tapi masih ada file lama
                 // Logika ini bisa ditambahkan jika diperlukan, untuk sekarang kita buat simpel.
 

@@ -58,7 +58,7 @@
                                     {{-- Video Player --}}
                                     <div class="aspect-w-16 aspect-h-9 bg-black">
                                         <video controls controlsList="nodownload" class="w-full h-full object-contain">
-                                            <source src="{{ Storage::url($modul->thumbnail) }}" type="video/{{ $fileExtension }}">
+                                            <source src="{{ $modul->thumbnail }}" type="video/{{ $fileExtension }}">
                                             Your browser does not support the video tag.
                                         </video>
                                     </div>
@@ -67,10 +67,10 @@
                                 @case('pdf')
                                     {{-- PDF Viewer --}}
                                     <div class="aspect-w-4 aspect-h-5" style="height: 80vh;">
-                                        <iframe src="{{ Storage::url($modul->thumbnail) }}#toolbar=0" class="w-full h-full" frameborder="0"></iframe>
+                                        <iframe src="{{ $modul->thumbnail }}#toolbar=0" class="w-full h-full" frameborder="0"></iframe>
                                     </div>
                                     @break
-                                
+
                                 @case('png')
                                 @case('jpg')
                                 @case('jpeg')
@@ -78,7 +78,7 @@
                                 @case('gif')
                                     {{-- Image Viewer --}}
                                     <div class="bg-gray-100 dark:bg-gray-900">
-                                       <img src="{{ Storage::url($modul->thumbnail) }}" alt="Thumbnail for {{ $modul->title }}" class="w-full h-auto max-h-[80vh] object-contain" />
+                                        <img src="{{ $modul->thumbnail }}" alt="Thumbnail for {{ $modul->title }}" class="w-full h-auto max-h-[80vh] object-contain" />
                                     </div>
                                     @break
 
@@ -90,8 +90,8 @@
                                         </div>
                                         <h3 class="mt-4 text-lg font-semibold text-gray-900 dark:text-gray-200">Preview Not Available</h3>
                                         <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">This file cannot be displayed directly in the browser.</p>
-                                        <a href="{{ Storage::url($modul->thumbnail) }}" download
-                                            class="mt-6 inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition-colors">
+                                        <a href="{{ $modul->thumbnail }}" download
+                                            class="mt-6 inline-flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md transition-colors"></a>
                                             <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z" /><path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z" /></svg>
                                             Download File ({{ strtoupper($fileExtension) }})
                                         </a>

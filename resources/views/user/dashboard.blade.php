@@ -141,7 +141,7 @@
                                 x-transition:enter-end="opacity-100 transform scale-100"
                                 class="group flex flex-col bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 transform hover:-translate-y-1.5 hover:ring-2 hover:ring-primary hover:ring-offset-2 dark:hover:ring-offset-gray-900">
                                 <div class="relative overflow-hidden">
-                                    <img src="{{ $item->thumbnail ? Storage::url($item->thumbnail) : 'https://via.placeholder.com/400x200.png?text=EduPlatform' }}" alt="{{ $item->title }}" class="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out">
+                                    <img src="{{ $item->thumbnail }}" alt="{{ $item->title }}" class="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out">
                                     @if($progress > 0 && $progress < 100)
                                         <div class="absolute top-3 right-3 bg-accent-secondary text-white text-xs font-bold py-1 px-2.5 rounded-full shadow-lg">CONTINUE</div>
                                 @elseif($progress == 100)
@@ -191,8 +191,8 @@
 
                         {{-- Action Button --}}
                         <a href="{{ route('quiz.start') }}"
-                           class="group block w-full text-center p-5 bg-gradient-to-br from-purple-600 via-fuchsia-500 to-pink-500 
-                                  rounded-xl text-white font-semibold transition-all duration-300 transform hover:scale-105 
+                           class="group block w-full text-center p-5 bg-gradient-to-br from-purple-600 via-fuchsia-500 to-pink-500
+                                  rounded-xl text-white font-semibold transition-all duration-300 transform hover:scale-105
                                   hover:shadow-2xl hover:shadow-fuchsia-500/40 focus:outline-none focus:ring-2 focus:ring-fuchsia-400">
                             <div class="flex items-center justify-center gap-3">
                                 <i class="fa-solid fa-bolt-lightning text-3xl transition-transform duration-500 group-hover:scale-125"></i>

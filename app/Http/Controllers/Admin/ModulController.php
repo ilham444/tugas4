@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Kategori;
 use App\Models\Modul;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -15,30 +16,30 @@ class ModulController extends Controller
     /**
      * Display a listing of the resource.
      */
-   public function index(Request $request)
-{
-    // Awal query modul
-    $query = Modul::query();
+    public function index(Request $request)
+    {
+        // Awal query modul
+        $query = Modul::query();
 
-    // Filter berdasarkan pencarian judul jika ada
-    if ($request->filled('search')) {
-        $query->where('title', 'like', '%' . $request->search . '%');
+        // Filter berdasarkan pencarian judul jika ada
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter berdasarkan kategori jika dipilih
+        if ($request->filled('kategori')) {
+            $query->where('kategori_id', $request->kategori);
+        }
+
+        // Ambil data modul terurut dari yang terbaru dan paginasi
+        $moduls = $query->latest()->paginate(10)->appends($request->query());
+
+        // Ambil semua kategori untuk keperluan dropdown filter
+        $kategoris = Kategori::all();
+
+        // Kirim data ke view
+        return view('admin.modul.index', compact('moduls', 'kategoris'));
     }
-
-    // Filter berdasarkan kategori jika dipilih
-    if ($request->filled('kategori')) {
-        $query->where('kategori_id', $request->kategori);
-    }
-
-    // Ambil data modul terurut dari yang terbaru dan paginasi
-    $moduls = $query->latest()->paginate(10)->appends($request->query());
-
-    // Ambil semua kategori untuk keperluan dropdown filter
-    $kategoris = Kategori::all();
-
-    // Kirim data ke view
-    return view('admin.modul.index', compact('moduls', 'kategoris'));
-}
 
     /**
      * Show the form for creating a new resource.
@@ -67,13 +68,20 @@ class ModulController extends Controller
         // Generate slug unik saat pembuatan. Menambahkan timestamp untuk menghindari duplikasi.
         $validated['slug'] = 'modul-' . Str::slug($request->title) . '-' . time();
 
-        // [UPDATED] Nama folder diubah menjadi 'modul-content' agar lebih deskriptif.
-        if ($request->hasFile('thumbnail')) {
-            $validated['thumbnail'] = $request->file('thumbnail')->store('modul-content', 'public');
+        if (config('cloudinary.cloud_url')) {
+            $uploadedFile = $request->file('thumbnail');
+            $cloudinary = Cloudinary::uploadApi()->upload($uploadedFile->getRealPath());
+            $filePath = $cloudinary['secure_url'];
+            $validated['thumbnail'] = $filePath;
+        } else {
+            if ($request->hasFile('thumbnail')) {
+                $filePath = $request->file('thumbnail')->store('modul-content', 'public');
+                $validated['thumbnail'] = asset('storage/' . $filePath);
+            }
         }
 
         Modul::create($validated);
-        
+
         return redirect()->route('admin.modul.index')->with('success', 'Modul baru berhasil ditambahkan.');
     }
 
@@ -113,17 +121,24 @@ class ModulController extends Controller
             $validated['slug'] = 'modul-' . Str::slug($request->title) . '-' . time();
         }
 
-        if ($request->hasFile('thumbnail')) {
-            // Hapus file lama jika ada
-            if ($modul->thumbnail && Storage::disk('public')->exists($modul->thumbnail)) {
-                Storage::disk('public')->delete($modul->thumbnail);
+        if (config('cloudinary.cloud_url')) {
+            $uploadedFile = $request->file('thumbnail');
+            $cloudinary = Cloudinary::uploadApi()->upload($uploadedFile->getRealPath());
+            $filePath = $cloudinary['secure_url'];
+            $validated['thumbnail'] = $filePath;
+        } else {
+            if ($request->hasFile('thumbnail')) {
+                // Hapus file lama jika ada
+                if ($modul->thumbnail && Storage::disk('public')->exists($modul->thumbnail)) {
+                    Storage::disk('public')->delete($modul->thumbnail);
+                }
+                // Simpan file baru dengan path yang konsisten
+                $filePath = $request->file('thumbnail')->store('modul-content', 'public');
+                $validated['thumbnail'] = asset('storage/' . $filePath);
             }
-            // Simpan file baru dengan path yang konsisten
-            $validated['thumbnail'] = $request->file('thumbnail')->store('modul-content', 'public');
         }
 
         $modul->update($validated);
-        
         return redirect()->route('admin.modul.index')->with('success', 'Modul berhasil diperbarui.');
     }
 
@@ -138,7 +153,7 @@ class ModulController extends Controller
         }
 
         $modul->delete();
-        
+
         return redirect()->route('admin.modul.index')->with('success', 'Modul berhasil dihapus.');
     }
 }

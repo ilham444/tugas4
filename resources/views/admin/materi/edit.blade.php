@@ -99,7 +99,7 @@
                                         </svg>
                                     </div>
                                     <div>
-                                        <a href="{{ Storage::url($materi->file_path) }}" target="_blank"
+                                        <a href="{{ $materi->file_path }}" target="_blank"
                                             class="text-sm font-semibold text-gray-800 dark:text-gray-200 hover:underline">{{ Str::limit(basename($materi->file_path), 25) }}</a>
                                         <p class="text-xs text-gray-500 dark:text-gray-400">Current file. Click to
                                             view.</p>

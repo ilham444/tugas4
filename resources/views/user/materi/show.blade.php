@@ -48,18 +48,17 @@
                         @if(in_array(strtolower($fileExtension), ['mp4', 'webm', 'ogg']))
                             <div class="aspect-w-16 aspect-h-9 bg-black">
                                 <video controls controlsList="nodownload" class="w-full h-full">
-                                    <source src="{{ Storage::url($materi->file_path) }}" type="video/{{ $fileExtension }}">
+                                    <source src="{{ $materi->file_path }}" type="video/{{ $fileExtension }}">
                                     Your browser does not support the video tag.
                                 </video>
                             </div>
                         @elseif(strtolower($fileExtension) == 'pdf')
-                            <div class="aspect-w-4 aspect-h-5" style="height: 80vh;">
-                                <iframe src="{{ Storage::url($materi->file_path) }}#toolbar=0" class="w-full h-full"
-                                    frameborder="0"></iframe>
+                        <div class="aspect-w-4 aspect-h-5" style="height: 80vh;">
+                                <iframe src="{{ $materi->file_path }}#toolbar=0" class="w-full h-full" frameborder="0"></iframe>
                             </div>
                         @elseif(in_array(strtolower($fileExtension), ['png', 'jpg', 'jpeg']))
                             <div class="aspect-w-16 aspect-h-9 bg-black">
-                                <img src="{{ Storage::url($materi->file_path) }}" alt="{{ $materi->title }}" class="w-full h-full object-contain" />
+                                <img src="{{ $materi->file_path }}" alt="{{ $materi->title }}" class="w-full h-full object-contain" />
                             </div>
                         @else
                             {{-- View for non-previewable files --}}
@@ -74,7 +73,7 @@
                                 </div>
                                 <h3 class="mt-4 text-lg font-semibold text-gray-900 dark:text-gray-200">Preview Not Available</h3>
                                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">This file cannot be displayed directly in the browser.</p>
-                                <a href="{{ Storage::url($materi->file_path) }}" download
+                                <a href="{{ $materi->file_path }}" download
                                     class="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-colors">
                                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                         fill="currentColor">
